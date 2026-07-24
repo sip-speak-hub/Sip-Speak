@@ -129,14 +129,14 @@ function renderVocab() {
         <div class="flip-card" onclick="this.classList.toggle('flipped')">
             <div class="flip-card-inner">
                 <div class="flip-card-front">
-<button class="audio-btn" onclick="event.stopPropagation(); speakText('${item.word}')" title="Listen" style="position: absolute; right: 15px; top: 15px;">🔊</button>                    
-<button class="audio-btn" onclick="event.stopPropagation(); addToDictionary('${item.word}', '${item.def}', '${item.ex}')" title="Add to Dictionary" style="position: absolute; right: 60px; top: 15px;">⭐</button>
+                    <button class="audio-btn" onclick="event.stopPropagation(); speakText('${escapeStr(item.word)}')" title="Listen" style="position: absolute; right: 15px; top: 15px;">🔊</button>
+                    <button class="audio-btn" onclick="event.stopPropagation(); addToDictionary('${escapeStr(item.word)}', '${escapeStr(item.def)}', '${escapeStr(item.ex)}')" title="Add to Dictionary" style="position: absolute; right: 60px; top: 15px;">⭐</button>
                     <span class="front-word">${item.word}</span>
                     <p style="margin-top:10px; font-size:0.8rem; color: var(--text-secondary);">Tap to reveal</p>
                 </div>
                 <div class="flip-card-back">
-                    <button class="audio-btn" onclick="event.stopPropagation(); speakText('${item.def}')" title="Listen" style="position: absolute; right: 15px; top: 15px;">🔊</button>
-                    <button class="audio-btn" onclick="event.stopPropagation(); addToDictionary('${item.word}', '${item.def}', '${item.ex}')" title="Add to Dictionary" style="position: absolute; right: 60px; top: 15px;">⭐</button>
+                    <button class="audio-btn" onclick="event.stopPropagation(); speakText('${escapeStr(item.def)}')" title="Listen" style="position: absolute; right: 15px; top: 15px;">🔊</button>
+                    <button class="audio-btn" onclick="event.stopPropagation(); addToDictionary('${escapeStr(item.word)}', '${escapeStr(item.def)}', '${escapeStr(item.ex)}')" title="Add to Dictionary" style="position: absolute; right: 60px; top: 15px;">⭐</button>
                     <p class="back-def">${item.def}</p>
                     <p class="back-example">"${item.ex}"</p>
                 </div>
@@ -533,4 +533,8 @@ function showNotification(message) {
     document.body.appendChild(notification);
     
     setTimeout(() => notification.remove(), 2000);
+}
+// Функция для защиты текста от ломки кода из-за кавычек
+function escapeStr(str) {
+    return str.replace(/'/g, "\\'").replace(/"/g, '\\"');
 }
