@@ -134,13 +134,49 @@ videos: [
 
 // ================= APP STATE =================
 let currentStep = 0;
-const totalSteps = 13; // Increased to 13 (added video section)
+const totalSteps = 14; // Increased to 13 (added video section)
 let timerInterval = null;
 let timeLeft = 60;
 let currentCategory = 0;
 let currentQuizIndex = 0;
 let selectedVideo = 0;
+// === ПЕРЕМЕННЫЕ ДЛЯ Fill in the Blanks (Lesson 2 - Movies) ===
+let blankIndex = 0;
+let blankScore = 0;
+let blankSelected = false;
 
+const fillInBlanksData = [
+    {
+        sentence: "I'm in the mood for a light ___ tonight.",
+        options: ["drama", "comedy", "thriller", "horror"],
+        correct: "comedy"
+    },
+    {
+        sentence: "The ___ at the end blew my mind!",
+        options: ["pacing", "chemistry", "plot twist", "soundtrack"],
+        correct: "plot twist"
+    },
+    {
+        sentence: "Her performance was the ___ of the film.",
+        options: ["guilty pleasure", "standout", "spoiler", "rewatch value"],
+        correct: "standout"
+    },
+    {
+        sentence: "We ___ the entire season in one weekend.",
+        options: ["marathoned", "spoiled", "pitched", "missed"],
+        correct: "marathoned"
+    },
+    {
+        sentence: "It's a ___ in storytelling.",
+        options: ["missed mark", "cup of tea", "masterclass", "guilty pleasure"],
+        correct: "masterclass"
+    }
+];
+// === НОВЫЕ ПЕРЕМЕННЫЕ ДЛЯ VOCABULARY BATTLE ===
+let vocabBattleIndex = 0;
+let vocabBattleScore = 0;
+let vocabBattleShowAnswer = false;
+let vocabBattleWords = [];
 // Flatten vocabulary for some activities
 const allVocab = Object.values(lessonData.vocabCategories).flat();
 
@@ -171,20 +207,21 @@ function renderScreen() {
         prevBtn.style.visibility = 'visible';
     }
 
-    switch(currentStep) {
+       switch(currentStep) {
         case 0: renderWelcome(); break;
         case 1: renderWarmUp(); break;
         case 2: renderVocabCategories(); break;
         case 3: renderVocabByCategory(); break;
         case 4: renderVocabBattle(); break;
-        case 5: renderGenreQuiz(); break;
-        case 6: renderVideoListening(); break; // NEW VIDEO SECTION
-        case 7: renderStory(); break;
-        case 8: renderDiscussion(); break;
-        case 9: renderChallenge(); break;
-        case 10: renderDebate(); break;
-        case 11: renderRolePlay(); break;
-        case 12: renderReflection(); break;
+        case 5: renderFillInTheBlanks(); break; // ← ДОБАВИТЬ ЭТУ СТРОКУ
+        case 6: renderGenreQuiz(); break;
+        case 7: renderVideoListening(); break;
+        case 8: renderStory(); break;
+        case 9: renderDiscussion(); break;
+        case 10: renderChallenge(); break;
+        case 11: renderDebate(); break;
+        case 12: renderRolePlay(); break;
+        case 13: renderReflection(); break;
     }
 }
 
@@ -314,26 +351,95 @@ function nextCategory() {
 }
 
 function renderVocabBattle() {
-    let shuffled = [...allVocab].sort(() => Math.random() - 0.5).slice(0, 15);
-    let cardsHtml = shuffled.map(item => `
-        <div class="question-box">
-            <strong style="color: var(--primary); font-size: 1.1rem;">${item.word}</strong>
-            <p style="font-size:0.95rem; margin-top:8px;">Explain without using the word!</p>
-        </div>
-    `).join('');
+    // Перемешиваем слова при первом запуске (берем все слова из всех категорий)
+    if (vocabBattleWords.length === 0) {
+        vocabBattleWords = [...allVocab].sort(() => Math.random() - 0.5);
+        vocabBattleIndex = 0;
+        vocabBattleScore = 0;
+        vocabBattleShowAnswer = false;
+    }
+    
+    // Если все слова пройдены
+    if (vocabBattleIndex >= vocabBattleWords.length) {
+        const percentage = Math.round((vocabBattleScore / vocabBattleWords.length) * 100);
+        let emoji = percentage >= 80 ? '🏆' : percentage >= 50 ? '👍' : '💪';
+        
+        document.getElementById('mainContent').innerHTML = `
+            <span class="emoji">${emoji}</span>
+            <h2 style="color: var(--primary);">Vocabulary Battle Complete!</h2>
+            <div style="text-align: center; margin: 30px 0;">
+                <div style="font-size: 4rem; font-weight: bold; color: var(--primary);">${vocabBattleScore}/${vocabBattleWords.length}</div>
+                <p style="font-size: 1.2rem; color: var(--text-secondary); margin-top: 10px;">words explained</p>
+                <div style="margin-top: 20px; font-size: 1.5rem;">${'⭐'.repeat(Math.ceil(percentage / 20))}</div>
+            </div>
+            <button class="btn btn-primary mt-20" onclick="resetVocabBattle()" style="width: 100%;">🔄 Play Again</button>
+        `;
+        return;
+    }
+    
+    const currentWord = vocabBattleWords[vocabBattleIndex];
+    const progress = ((vocabBattleIndex) / vocabBattleWords.length) * 100;
+    
+    if (vocabBattleShowAnswer) {
+        // Показываем ответ
+        document.getElementById('mainContent').innerHTML = `
+            <span class="emoji">💡</span>
+            <h2 style="color: var(--primary);">Vocabulary Battle</h2>
+            <div style="background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%); color: white; padding: 30px; border-radius: 20px; margin: 20px 0;">
+                <div style="font-size: 2.5rem; font-weight: bold; margin-bottom: 20px;">${escapeStr(currentWord.word)}</div>
+                <div style="font-size: 1.1rem; margin-bottom: 15px;">${escapeStr(currentWord.def)}</div>
+                <div style="font-style: italic; opacity: 0.9;">"${escapeStr(currentWord.ex)}"</div>
+            </div>
+            <button class="btn btn-primary mt-20" onclick="nextVocabBattleWord()" style="width: 100%;">Next Word →</button>
+        `;
+    } else {
+        // Показываем слово с кнопками
+        document.getElementById('mainContent').innerHTML = `
+            <span class="emoji">🎯</span>
+            <h2 style="color: var(--primary);">Vocabulary Battle</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 10px;">Word ${vocabBattleIndex + 1} of ${vocabBattleWords.length}</p>
+            <div style="background: #e0e0e0; height: 8px; border-radius: 4px; margin-bottom: 30px; overflow: hidden;">
+                <div style="background: var(--primary); height: 100%; width: ${progress}%; transition: width 0.3s ease;"></div>
+            </div>
+            
+            <div style="background: white; padding: 40px 30px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 30px;">
+                <div style="font-size: 2.5rem; font-weight: bold; color: var(--primary); text-align: center; margin-bottom: 10px;">${escapeStr(currentWord.word)}</div>
+                <p style="text-align: center; color: var(--text-secondary); font-size: 0.9rem;">Explain this word to your partner</p>
+            </div>
+            
+            <div style="display: flex; gap: 15px;">
+                <button class="btn" onclick="vocabBattleCorrect()" style="flex: 1; background: #4CAF50; color: white; border: none; padding: 20px; font-size: 1.1rem; font-weight: 600; border-radius: 12px; cursor: pointer;">✅ Explained</button>
+                <button class="btn" onclick="vocabBattleShowAnswerFn()" style="flex: 1; background: #FF9800; color: white; border: none; padding: 20px; font-size: 1.1rem; font-weight: 600; border-radius: 12px; cursor: pointer;">❓ Don't know</button>
+            </div>
+        `;
+    }
+}
 
-    document.getElementById('mainContent').innerHTML = `
-        <span class="emoji"></span>
-        <h2>Vocabulary Battle</h2>
-        <p><strong>How to play:</strong></p>
-        <ul style="padding-left: 20px; margin: 15px 0;">
-            <li>Player A picks a card and explains the meaning</li>
-            <li>Player B guesses the word/phrase</li>
-            <li>No translations allowed!</li>
-            <li>3 points for correct guess, 1 point if partner needs hints</li>
-        </ul>
-        <div class="mt-20">${cardsHtml}</div>
-    `;
+// === ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ДЛЯ VOCABULARY BATTLE ===
+function vocabBattleCorrect() {
+    vocabBattleScore++;
+    vocabBattleIndex++;
+    vocabBattleShowAnswer = false;
+    renderVocabBattle();
+}
+
+function vocabBattleShowAnswerFn() {
+    vocabBattleShowAnswer = true;
+    renderVocabBattle();
+}
+
+function nextVocabBattleWord() {
+    vocabBattleIndex++;
+    vocabBattleShowAnswer = false;
+    renderVocabBattle();
+}
+
+function resetVocabBattle() {
+    vocabBattleWords = [];
+    vocabBattleIndex = 0;
+    vocabBattleScore = 0;
+    vocabBattleShowAnswer = false;
+    renderVocabBattle();
 }
 
 function renderGenreQuiz() {
@@ -499,22 +605,140 @@ function renderChallenge() {
         </div>
     `;
 }
+function renderFillInTheBlanks() {
+    if (blankIndex >= fillInBlanksData.length) {
+        const percentage = Math.round((blankScore / fillInBlanksData.length) * 100);
+        let emoji = percentage === 100 ? '🏆' : percentage >= 75 ? '🌟' : '💪';
+        
+        document.getElementById('mainContent').innerHTML = `
+            <span class="emoji">${emoji}</span>
+            <h2 style="color: var(--primary);">Fill in the Blanks: Complete!</h2>
+            <div style="text-align: center; margin: 30px 0;">
+                <div style="font-size: 4rem; font-weight: bold; color: var(--primary);">${blankScore}/${fillInBlanksData.length}</div>
+                <p style="font-size: 1.2rem; color: var(--text-secondary); margin-top: 10px;">correct answers</p>
+            </div>
+            <button class="btn btn-primary mt-20" onclick="resetFillInTheBlanks()" style="width: 100%;">🔄 Try Again</button>
+        `;
+        return;
+    }
+
+    const current = fillInBlanksData[blankIndex];
+    const progress = ((blankIndex) / fillInBlanksData.length) * 100;
+
+    document.getElementById('mainContent').innerHTML = `
+        <span class="emoji">✍️</span>
+        <h2 style="color: var(--primary);">Fill in the Blanks</h2>
+        <p style="color: var(--text-secondary); margin-bottom: 10px;">Question ${blankIndex + 1} of ${fillInBlanksData.length}</p>
+        
+        <div style="background: #e0e0e0; height: 8px; border-radius: 4px; margin-bottom: 30px; overflow: hidden;">
+            <div style="background: var(--primary); height: 100%; width: ${progress}%; transition: width 0.3s ease;"></div>
+        </div>
+
+        <div style="background: white; padding: 30px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 30px; text-align: center; font-size: 1.3rem; line-height: 1.6; color: var(--text-main);">
+            "${current.sentence.replace('___', `<span id="blankSpace" style="border-bottom: 3px solid var(--primary); color: var(--primary); font-weight: bold; padding: 0 10px;">___</span>`)}"
+        </div>
+
+        <div id="optionsContainer" style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
+            ${current.options.map(opt => `
+                <button onclick="checkBlankAnswer('${opt}', '${current.correct}')" 
+                    style="padding: 12px 24px; border: 2px solid var(--primary); background: white; color: var(--primary); border-radius: 25px; cursor: pointer; font-family: 'Quicksand', sans-serif; font-weight: 600; font-size: 1rem; transition: all 0.2s ease;">
+                    ${opt}
+                </button>
+            `).join('')}
+        </div>
+
+        <div id="feedbackMessage" style="text-align: center; margin-top: 20px; font-weight: 600; font-size: 1.1rem; min-height: 30px;"></div>
+
+        <button id="nextBlankBtn" class="btn btn-primary mt-20" onclick="nextBlank()" style="width: 100%; display: none;">Next Question →</button>
+    `;
+    
+    blankSelected = false;
+}
+
+function checkBlankAnswer(selected, correct) {
+    if (blankSelected) return;
+    blankSelected = true;
+
+    const blankSpace = document.getElementById('blankSpace');
+    const feedback = document.getElementById('feedbackMessage');
+    const nextBtn = document.getElementById('nextBlankBtn');
+    const optionsContainer = document.getElementById('optionsContainer');
+
+    blankSpace.textContent = selected;
+
+    if (selected === correct) {
+        blankScore++;
+        blankSpace.style.borderColor = '#4CAF50';
+        blankSpace.style.color = '#4CAF50';
+        feedback.textContent = '✅ Correct! Great job.';
+        feedback.style.color = '#4CAF50';
+    } else {
+        blankSpace.style.borderColor = '#F44336';
+        blankSpace.style.color = '#F44336';
+        feedback.textContent = `❌ Oops! The correct word is "${correct}".`;
+        feedback.style.color = '#F44336';
+    }
+
+    const buttons = optionsContainer.querySelectorAll('button');
+    buttons.forEach(btn => {
+        btn.style.pointerEvents = 'none';
+        if (btn.textContent.trim() === correct) {
+            btn.style.background = '#4CAF50';
+            btn.style.color = 'white';
+            btn.style.borderColor = '#4CAF50';
+        } else if (btn.textContent.trim() === selected && selected !== correct) {
+            btn.style.background = '#F44336';
+            btn.style.color = 'white';
+            btn.style.borderColor = '#F44336';
+        }
+    });
+
+    nextBtn.style.display = 'block';
+}
+
+function nextBlank() {
+    blankIndex++;
+    renderFillInTheBlanks();
+}
+
+function resetFillInTheBlanks() {
+    blankIndex = 0;
+    blankScore = 0;
+    renderFillInTheBlanks();
+}
 
 function renderDebate() {
-    const sides = [
-        "AGREE: Streaming services have done more harm than good for cinema.", 
-        "DISAGREE: Streaming services have democratized and improved film accessibility."
-    ];
-    const randomSide = sides[Math.floor(Math.random() * sides.length)];
-    
     document.getElementById('mainContent').innerHTML = `
         <span class="emoji">🔥</span>
-        <h2>Hot Takes / Debate</h2>
-        <p>The computer has randomly assigned your side. Defend it passionately!</p>
-        <div class="question-box mt-20" style="text-align: center; font-size: 1.15rem; font-weight: 600; background: rgba(212, 168, 67, 0.2);">
-            ${randomSide}
+        <h2 style="color: var(--primary);">Hot Takes / Debate</h2>
+        <p style="text-align: center; margin-bottom: 20px;">Decide who is Person A and who is Person B. You MUST defend your assigned side, even if you personally disagree!</p>
+        
+        <div class="question-box mt-20" style="text-align: center; border-left: none; padding: 25px;">
+            <p style="font-size: 1.2rem; font-weight: 600; color: var(--primary); margin-bottom: 20px; line-height: 1.4;">
+                "${lessonData.debate}"
+            </p>
+            
+            <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 20px;">
+                <div style="flex: 1; min-width: 200px; background: #4CAF50; color: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);">
+                    <div style="font-size: 2rem; margin-bottom: 10px;">👤 Person A</div>
+                    <div style="font-weight: bold; font-size: 1.3rem; letter-spacing: 1px;">AGREE</div>
+                    <div style="font-size: 0.9rem; margin-top: 5px; opacity: 0.9;">Defend this statement</div>
+                </div>
+                
+                <div style="flex: 1; min-width: 200px; background: #F44336; color: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(244, 67, 54, 0.3);">
+                    <div style="font-size: 2rem; margin-bottom: 10px;">👤 Person B</div>
+                    <div style="font-weight: bold; font-size: 1.3rem; letter-spacing: 1px;">DISAGREE</div>
+                    <div style="font-size: 0.9rem; margin-top: 5px; opacity: 0.9;">Argue against it</div>
+                </div>
+            </div>
         </div>
-        <p class="mt-20"><strong>Preparation:</strong> 2 minutes to think of arguments<br><strong>Speaking:</strong> Defend your position for 2-3 minutes<br><strong>Use:</strong> At least 4 vocabulary expressions</p>
+        
+        <div class="mt-20" style="background: rgba(0,0,0,0.03); padding: 15px; border-radius: 12px;">
+            <p style="margin: 0; font-size: 0.95rem;"><strong>⏱️ Timing:</strong> 2 minutes to prepare arguments → 2-3 minutes to speak → Switch roles and discuss!</p>
+            <p style="margin: 10px 0 0 0; font-size: 0.95rem;"><strong>🎯 Goal:</strong> Use at least 4 vocabulary expressions from today's lesson.</p>
+        </div>
+
+        <button class="btn btn-secondary mt-20" onclick="renderDebate()" style="width: 100%;">🎲 Shuffle Debate Topic</button>
     `;
 }
 
@@ -576,7 +800,8 @@ function startTimer(seconds = 60) {
         updateTimerDisplay(seconds);
         if (timeLeft <= 0) {
             clearInterval(timerInterval);
-            document.getElementById('timerDisplay').innerText = "TIME'S UP! ";
+            document.getElementById('timerDisplay').innerText = "TIME'S UP! 🎉";
+            playTimerEndSound(); // ← ДОБАВИТЬ ЭТУ СТРОКУ
         }
     }, 1000);
 }
@@ -777,4 +1002,29 @@ function showNotification(message) {
 // Функция для защиты текста от ломки кода из-за кавычек
 function escapeStr(str) {
     return str.replace(/'/g, "\\'").replace(/"/g, '\\"');
+}
+// ================= ЗВУК ОКОНЧАНИЯ ТАЙМЕРА =================
+function playTimerEndSound() {
+    try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        
+        // Настройка звука (приятный "дзынь")
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(523.25, audioCtx.currentTime); // Нота C5
+        oscillator.frequency.exponentialRampToValueAtTime(1046.5, audioCtx.currentTime + 0.1); // Переход на C6
+        
+        // Плавное затухание
+        gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.6);
+        
+        oscillator.start(audioCtx.currentTime);
+        oscillator.stop(audioCtx.currentTime + 0.6);
+    } catch (e) {
+        console.log("Audio play failed", e);
+    }
 }

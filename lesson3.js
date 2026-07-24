@@ -109,7 +109,11 @@ let currentCategory = 0;
 let currentQuizIndex = 0;
 
 const allVocab = Object.values(lessonData.vocabCategories).flat();
-
+// === НОВЫЕ ПЕРЕМЕННЫЕ ДЛЯ VOCABULARY BATTLE ===
+let vocabBattleIndex = 0;
+let vocabBattleScore = 0;
+let vocabBattleShowAnswer = false;
+let vocabBattleWords = [];
 // ================= RENDER FUNCTIONS =================
 function updateProgress() {
     const progress = ((currentStep + 1) / totalSteps) * 100;
@@ -288,26 +292,95 @@ function nextCategory() {
 }
 
 function renderVocabBattle() {
-    let shuffled = [...allVocab].sort(() => Math.random() - 0.5).slice(0, 15);
-    let cardsHtml = shuffled.map(item => `
-        <div class="question-box">
-            <strong style="color: var(--primary); font-size: 1.1rem;">${item.word}</strong>
-            <p style="font-size:0.95rem; margin-top:8px;">Explain without using the word!</p>
-        </div>
-    `).join('');
+    // Перемешиваем слова при первом запуске (берем все слова из всех категорий)
+    if (vocabBattleWords.length === 0) {
+        vocabBattleWords = [...allVocab].sort(() => Math.random() - 0.5);
+        vocabBattleIndex = 0;
+        vocabBattleScore = 0;
+        vocabBattleShowAnswer = false;
+    }
+    
+    // Если все слова пройдены
+    if (vocabBattleIndex >= vocabBattleWords.length) {
+        const percentage = Math.round((vocabBattleScore / vocabBattleWords.length) * 100);
+        let emoji = percentage >= 80 ? '🏆' : percentage >= 50 ? '👍' : '💪';
+        
+        document.getElementById('mainContent').innerHTML = `
+            <span class="emoji">${emoji}</span>
+            <h2 style="color: var(--primary);">Vocabulary Battle Complete!</h2>
+            <div style="text-align: center; margin: 30px 0;">
+                <div style="font-size: 4rem; font-weight: bold; color: var(--primary);">${vocabBattleScore}/${vocabBattleWords.length}</div>
+                <p style="font-size: 1.2rem; color: var(--text-secondary); margin-top: 10px;">words explained</p>
+                <div style="margin-top: 20px; font-size: 1.5rem;">${'⭐'.repeat(Math.ceil(percentage / 20))}</div>
+            </div>
+            <button class="btn btn-primary mt-20" onclick="resetVocabBattle()" style="width: 100%;">🔄 Play Again</button>
+        `;
+        return;
+    }
+    
+    const currentWord = vocabBattleWords[vocabBattleIndex];
+    const progress = ((vocabBattleIndex) / vocabBattleWords.length) * 100;
+    
+    if (vocabBattleShowAnswer) {
+        // Показываем ответ
+        document.getElementById('mainContent').innerHTML = `
+            <span class="emoji">💡</span>
+            <h2 style="color: var(--primary);">Vocabulary Battle</h2>
+            <div style="background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%); color: white; padding: 30px; border-radius: 20px; margin: 20px 0;">
+                <div style="font-size: 2.5rem; font-weight: bold; margin-bottom: 20px;">${escapeStr(currentWord.word)}</div>
+                <div style="font-size: 1.1rem; margin-bottom: 15px;">${escapeStr(currentWord.def)}</div>
+                <div style="font-style: italic; opacity: 0.9;">"${escapeStr(currentWord.ex)}"</div>
+            </div>
+            <button class="btn btn-primary mt-20" onclick="nextVocabBattleWord()" style="width: 100%;">Next Word →</button>
+        `;
+    } else {
+        // Показываем слово с кнопками
+        document.getElementById('mainContent').innerHTML = `
+            <span class="emoji">🎯</span>
+            <h2 style="color: var(--primary);">Vocabulary Battle</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 10px;">Word ${vocabBattleIndex + 1} of ${vocabBattleWords.length}</p>
+            <div style="background: #e0e0e0; height: 8px; border-radius: 4px; margin-bottom: 30px; overflow: hidden;">
+                <div style="background: var(--primary); height: 100%; width: ${progress}%; transition: width 0.3s ease;"></div>
+            </div>
+            
+            <div style="background: white; padding: 40px 30px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 30px;">
+                <div style="font-size: 2.5rem; font-weight: bold; color: var(--primary); text-align: center; margin-bottom: 10px;">${escapeStr(currentWord.word)}</div>
+                <p style="text-align: center; color: var(--text-secondary); font-size: 0.9rem;">Explain this word to your partner</p>
+            </div>
+            
+            <div style="display: flex; gap: 15px;">
+                <button class="btn" onclick="vocabBattleCorrect()" style="flex: 1; background: #4CAF50; color: white; border: none; padding: 20px; font-size: 1.1rem; font-weight: 600; border-radius: 12px; cursor: pointer;">✅ Explained</button>
+                <button class="btn" onclick="vocabBattleShowAnswerFn()" style="flex: 1; background: #FF9800; color: white; border: none; padding: 20px; font-size: 1.1rem; font-weight: 600; border-radius: 12px; cursor: pointer;">❓ Don't know</button>
+            </div>
+        `;
+    }
+}
 
-    document.getElementById('mainContent').innerHTML = `
-        <span class="emoji"></span>
-        <h2>Vocabulary Battle</h2>
-        <p><strong>How to play:</strong></p>
-        <ul style="padding-left: 20px; margin: 15px 0;">
-            <li>Player A picks a card and explains the meaning</li>
-            <li>Player B guesses the word/phrase</li>
-            <li>No translations allowed!</li>
-            <li>3 points for correct guess, 1 point if partner needs hints</li>
-        </ul>
-        <div class="mt-20">${cardsHtml}</div>
-    `;
+// === ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ДЛЯ VOCABULARY BATTLE ===
+function vocabBattleCorrect() {
+    vocabBattleScore++;
+    vocabBattleIndex++;
+    vocabBattleShowAnswer = false;
+    renderVocabBattle();
+}
+
+function vocabBattleShowAnswerFn() {
+    vocabBattleShowAnswer = true;
+    renderVocabBattle();
+}
+
+function nextVocabBattleWord() {
+    vocabBattleIndex++;
+    vocabBattleShowAnswer = false;
+    renderVocabBattle();
+}
+
+function resetVocabBattle() {
+    vocabBattleWords = [];
+    vocabBattleIndex = 0;
+    vocabBattleScore = 0;
+    vocabBattleShowAnswer = false;
+    renderVocabBattle();
 }
 
 function renderTravelQuiz() {
@@ -403,20 +476,37 @@ function renderChallenge() {
 }
 
 function renderDebate() {
-    const sides = [
-        "AGREE: Mass tourism does more harm than good for local communities.", 
-        "DISAGREE: Tourism brings economic benefits that outweigh the drawbacks."
-    ];
-    const randomSide = sides[Math.floor(Math.random() * sides.length)];
-    
     document.getElementById('mainContent').innerHTML = `
         <span class="emoji">🔥</span>
-        <h2>Hot Takes / Debate</h2>
-        <p>The computer has randomly assigned your side. Defend it passionately!</p>
-        <div class="question-box mt-20" style="text-align: center; font-size: 1.15rem; font-weight: 600; background: rgba(152, 74, 57, 0.2);">
-            ${randomSide}
+        <h2 style="color: var(--primary);">Hot Takes / Debate</h2>
+        <p style="text-align: center; margin-bottom: 20px;">Decide who is Person A and who is Person B. You MUST defend your assigned side, even if you personally disagree!</p>
+        
+        <div class="question-box mt-20" style="text-align: center; border-left: none; padding: 25px;">
+            <p style="font-size: 1.2rem; font-weight: 600; color: var(--primary); margin-bottom: 20px; line-height: 1.4;">
+                "${lessonData.debate}"
+            </p>
+            
+            <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 20px;">
+                <div style="flex: 1; min-width: 200px; background: #4CAF50; color: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);">
+                    <div style="font-size: 2rem; margin-bottom: 10px;">👤 Person A</div>
+                    <div style="font-weight: bold; font-size: 1.3rem; letter-spacing: 1px;">AGREE</div>
+                    <div style="font-size: 0.9rem; margin-top: 5px; opacity: 0.9;">Defend this statement</div>
+                </div>
+                
+                <div style="flex: 1; min-width: 200px; background: #F44336; color: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(244, 67, 54, 0.3);">
+                    <div style="font-size: 2rem; margin-bottom: 10px;">👤 Person B</div>
+                    <div style="font-weight: bold; font-size: 1.3rem; letter-spacing: 1px;">DISAGREE</div>
+                    <div style="font-size: 0.9rem; margin-top: 5px; opacity: 0.9;">Argue against it</div>
+                </div>
+            </div>
         </div>
-        <p class="mt-20"><strong>Preparation:</strong> 2 minutes to think of arguments<br><strong>Speaking:</strong> Defend your position for 2-3 minutes<br><strong>Use:</strong> At least 4 vocabulary expressions</p>
+        
+        <div class="mt-20" style="background: rgba(0,0,0,0.03); padding: 15px; border-radius: 12px;">
+            <p style="margin: 0; font-size: 0.95rem;"><strong>⏱️ Timing:</strong> 2 minutes to prepare arguments → 2-3 minutes to speak → Switch roles and discuss!</p>
+            <p style="margin: 10px 0 0 0; font-size: 0.95rem;"><strong>🎯 Goal:</strong> Use at least 4 vocabulary expressions from today's lesson.</p>
+        </div>
+
+        <button class="btn btn-secondary mt-20" onclick="renderDebate()" style="width: 100%;">🎲 Shuffle Debate Topic</button>
     `;
 }
 
@@ -502,6 +592,7 @@ function startTimer(seconds = 60) {
         if (timeLeft <= 0) {
             clearInterval(timerInterval);
             document.getElementById('timerDisplay').innerText = "TIME'S UP! 🎉";
+            playTimerEndSound(); // ← ДОБАВИТЬ ЭТУ СТРОКУ
         }
     }, 1000);
 }
@@ -702,4 +793,29 @@ function showNotification(message) {
 // Функция для защиты текста от ломки кода из-за кавычек
 function escapeStr(str) {
     return str.replace(/'/g, "\\'").replace(/"/g, '\\"');
+}
+// ================= ЗВУК ОКОНЧАНИЯ ТАЙМЕРА =================
+function playTimerEndSound() {
+    try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        
+        // Настройка звука (приятный "дзынь")
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(523.25, audioCtx.currentTime); // Нота C5
+        oscillator.frequency.exponentialRampToValueAtTime(1046.5, audioCtx.currentTime + 0.1); // Переход на C6
+        
+        // Плавное затухание
+        gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.6);
+        
+        oscillator.start(audioCtx.currentTime);
+        oscillator.stop(audioCtx.currentTime + 0.6);
+    } catch (e) {
+        console.log("Audio play failed", e);
+    }
 }

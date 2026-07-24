@@ -605,3 +605,28 @@ document.addEventListener('DOMContentLoaded', () => {
 function escapeStr(str) {
     return str.replace(/'/g, "\\'").replace(/"/g, '\\"');
 }
+// ================= ЗВУК ОКОНЧАНИЯ ТАЙМЕРА =================
+function playTimerEndSound() {
+    try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        
+        // Настройка звука (приятный "дзынь")
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(523.25, audioCtx.currentTime); // Нота C5
+        oscillator.frequency.exponentialRampToValueAtTime(1046.5, audioCtx.currentTime + 0.1); // Переход на C6
+        
+        // Плавное затухание
+        gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.6);
+        
+        oscillator.start(audioCtx.currentTime);
+        oscillator.stop(audioCtx.currentTime + 0.6);
+    } catch (e) {
+        console.log("Audio play failed", e);
+    }
+}
