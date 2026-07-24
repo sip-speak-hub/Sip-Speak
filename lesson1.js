@@ -269,14 +269,14 @@ function renderReflection() {
         <h2>Wrap-up & Reflection</h2>
         <p>Reflect with your partner:</p>
         <div class="question-box mt-20" style="border-left: none;">
-            <ul style="padding-left: 20px; line-height: 2.2;">
-                <li>What were your <strong>top 3 favorite expressions</strong> from today?</li>
-                <li>Which vocabulary category resonated most with you?</li>
-                <li>What's ONE small change you'll make this week?</li>
-                <li>How do you define 'wellness' now vs. before this lesson?</li>
-                <li>Rate today's lesson using wellness vocabulary!</li>
-            </ul>
-        </div>
+    <ul style="padding-left: 20px; line-height: 2.2;">
+        <li>What's one new thing you learned about your partner today?</li>
+        <li>Which expression from today will you use when introducing yourself?</li>
+        <li>How would you describe yourself using 3 words from today's vocabulary?</li>
+        <li>What's one personal goal you want to share with the group?</li>
+        <li>What surprised you most about someone's story today?</li>
+    </ul>
+</div>
         
         <!-- ВОТ СЮДА ВСТАВЬ КНОПКУ: -->
         <button class="btn btn-primary mt-20" onclick="generateCheatSheet()" style="width: 100%;">

@@ -449,15 +449,15 @@ function renderReflection() {
         <h2 style="color: #B20B13;">Wrap-up & Reflection</h2>
         <p>Reflect on today's lesson:</p>
         
-        <div class="question-box mt-20" style="border-left: none; background: linear-gradient(135deg, #FDECDC 0%, #FFE5D0 100%);">
-            <ul style="padding-left: 20px; line-height: 2.2;">
-                <li>What new vocabulary will you use this week?</li>
-                <li>Which song will you listen to differently now?</li>
-                <li>How would you describe your musical identity?</li>
-                <li>What's one music-related goal you have?</li>
-                <li>Rate today's lesson using music vocabulary!</li>
-            </ul>
-        </div>
+       <div class="question-box mt-20" style="border-left: none; background: linear-gradient(135deg, #FDECDC 0%, #FFE5D0 100%);">
+    <ul style="padding-left: 20px; line-height: 2.2;">
+        <li>What song would you add to today's lesson playlist?</li>
+        <li>Which music vocabulary word describes your mood right now?</li>
+        <li>How does music help you in daily life?</li>
+        <li>Share a memory connected to a specific song.</li>
+        <li>What role does music play in your identity?</li>
+    </ul>
+</div>
         
         <button class="btn btn-primary mt-20" onclick="generateCheatSheet()" style="width: 100%; background: #B20B13; border: none;">📥 Download PDF Cheat Sheet</button>
         
