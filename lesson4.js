@@ -128,7 +128,7 @@ videos: [
 
 // ================= APP STATE =================
 let currentStep = 0;
-const totalSteps = 13;
+const totalSteps = 14;
 let timerInterval = null;
 let timeLeft = 60;
 let currentCategory = 0;
@@ -141,6 +141,38 @@ let vocabBattleIndex = 0;
 let vocabBattleScore = 0;
 let vocabBattleShowAnswer = false;
 let vocabBattleWords = [];
+
+// === ПЕРЕМЕННЫЕ ДЛЯ Fill in the Blanks (Lesson 4 - Wellness Theme) ===
+let blankIndex = 0;
+let blankScore = 0;
+let blankSelected = false;
+
+const fillInBlanksData = [
+    {
+        context: "🧠 Mental Check-in",
+        sentence: "I've been working 60-hour weeks, and I'm starting to feel total ___.",
+        options: ["motivation", "burnout", "willpower", "consistency"],
+        correct: "burnout"
+    },
+    {
+        context: "😴 Sleep Habits",
+        sentence: "To improve my ___, I try to turn off all screens an hour before bed.",
+        options: ["circadian rhythm", "power nap", "sleep hygiene", "insomnia"],
+        correct: "sleep hygiene"
+    },
+    {
+        context: "💪 Physical Boost",
+        sentence: "Even a 10-minute walk can boost your ___ and make you feel happier.",
+        options: ["cortisol", "metabolism", "endorphins", "immune system"],
+        correct: "endorphins"
+    },
+    {
+        context: "🧘 Long-term Goals",
+        sentence: "Achieving a good ___ is crucial for long-term mental and physical health.",
+        options: ["work-life balance", "digital detox", "holistic health", "me-time"],
+        correct: "work-life balance"
+    }
+];
 // ================= RENDER FUNCTIONS =================
 function updateProgress() {
     const progress = ((currentStep + 1) / totalSteps) * 100;
@@ -168,20 +200,21 @@ function renderScreen() {
         prevBtn.style.visibility = 'visible';
     }
 
-    switch(currentStep) {
+        switch(currentStep) {
         case 0: renderWelcome(); break;
         case 1: renderWarmUp(); break;
         case 2: renderVocabCategories(); break;
         case 3: renderVocabByCategory(); break;
         case 4: renderVocabBattle(); break;
-        case 5: renderWellnessQuiz(); break;
-        case 6: renderVideoListening(); break;
-        case 7: renderStory(); break;
-        case 8: renderDiscussion(); break;
-        case 9: renderChallenge(); break;
-        case 10: renderDebate(); break;
-        case 11: renderRolePlay(); break;
-        case 12: renderReflection(); break;
+        case 5: renderFillInTheBlanks(); break; // ← ДОБАВИТЬ
+        case 6: renderWellnessQuiz(); break;
+        case 7: renderVideoListening(); break;
+        case 8: renderStory(); break;
+        case 9: renderDiscussion(); break;
+        case 10: renderChallenge(); break;
+        case 11: renderDebate(); break;
+        case 12: renderRolePlay(); break;
+        case 13: renderReflection(); break;
     }
 }
 
@@ -565,7 +598,113 @@ function renderChallenge() {
         </div>
     `;
 }
+function renderFillInTheBlanks() {
+    if (blankIndex >= fillInBlanksData.length) {
+        const percentage = Math.round((blankScore / fillInBlanksData.length) * 100);
+        let emoji = percentage === 100 ? '🏆' : percentage >= 75 ? '🌟' : '💪';
+        
+        document.getElementById('mainContent').innerHTML = `
+            <span class="emoji">${emoji}</span>
+            <h2 style="color: var(--primary);">Travel Diary Complete!</h2>
+            <div style="text-align: center; margin: 30px 0;">
+                <div style="font-size: 4rem; font-weight: bold; color: var(--primary);">${blankScore}/${fillInBlanksData.length}</div>
+                <p style="font-size: 1.2rem; color: var(--text-secondary); margin-top: 10px;">entries filled correctly</p>
+            </div>
+            <button class="btn btn-primary mt-20" onclick="resetFillInTheBlanks()" style="width: 100%;">🔄 Write Again</button>
+        `;
+        return;
+    }
 
+    const current = fillInBlanksData[blankIndex];
+    const progress = ((blankIndex) / fillInBlanksData.length) * 100;
+
+    document.getElementById('mainContent').innerHTML = `
+        <span class="emoji">📝</span>
+        <h2 style="color: var(--primary);">Fill in the Travel Diary</h2>
+        <p style="color: var(--text-secondary); margin-bottom: 10px;">Entry ${blankIndex + 1} of ${fillInBlanksData.length}</p>
+        
+        <div style="background: #e0e0e0; height: 8px; border-radius: 4px; margin-bottom: 30px; overflow: hidden;">
+            <div style="background: var(--primary); height: 100%; width: ${progress}%; transition: width 0.3s ease;"></div>
+        </div>
+
+        <!-- СТИЛЬ ДНЕВНИКА ПУТЕШЕСТВЕННИКА -->
+        <div style="background: #FFF9F0; border-left: 5px solid #984A39; padding: 25px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 30px;">
+            <div style="font-family: 'Caveat', cursive; font-size: 1.6rem; color: #984A39; margin-bottom: 15px;">${current.context}</div>
+            <div style="font-size: 1.2rem; line-height: 1.6; color: #333;">
+                "${current.sentence.replace('___', `<span id="blankSpace" style="border-bottom: 2px dashed #984A39; color: #984A39; font-weight: bold; padding: 0 8px; background: rgba(152, 74, 57, 0.1); border-radius: 4px;">___</span>`)}"
+            </div>
+        </div>
+
+        <div id="optionsContainer" style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;">
+            ${current.options.map(opt => `
+                <button onclick="checkBlankAnswer('${opt}', '${current.correct}')" 
+                    style="padding: 12px 24px; border: 2px solid #984A39; background: white; color: #984A39; border-radius: 25px; cursor: pointer; font-family: 'Quicksand', sans-serif; font-weight: 600; font-size: 1rem; transition: all 0.2s ease; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+                    ${opt}
+                </button>
+            `).join('')}
+        </div>
+
+        <div id="feedbackMessage" style="text-align: center; margin-top: 25px; font-weight: 600; font-size: 1.1rem; min-height: 30px;"></div>
+
+        <button id="nextBlankBtn" class="btn btn-primary mt-20" onclick="nextBlank()" style="width: 100%; display: none; background: #984A39; border: none;">Next Entry →</button>
+    `;
+    
+    blankSelected = false;
+}
+
+function checkBlankAnswer(selected, correct) {
+    if (blankSelected) return;
+    blankSelected = true;
+
+    const blankSpace = document.getElementById('blankSpace');
+    const feedback = document.getElementById('feedbackMessage');
+    const nextBtn = document.getElementById('nextBlankBtn');
+    const optionsContainer = document.getElementById('optionsContainer');
+
+    blankSpace.textContent = selected;
+
+    if (selected === correct) {
+        blankScore++;
+        blankSpace.style.borderColor = '#4CAF50';
+        blankSpace.style.color = '#4CAF50';
+        blankSpace.style.background = 'rgba(76, 175, 80, 0.1)';
+        feedback.textContent = '✅ Perfect! Fits the story.';
+        feedback.style.color = '#4CAF50';
+    } else {
+        blankSpace.style.borderColor = '#F44336';
+        blankSpace.style.color = '#F44336';
+        blankSpace.style.background = 'rgba(244, 67, 54, 0.1)';
+        feedback.textContent = `❌ Not quite. The correct phrase is "${correct}".`;
+        feedback.style.color = '#F44336';
+    }
+
+    const buttons = optionsContainer.querySelectorAll('button');
+    buttons.forEach(btn => {
+        btn.style.pointerEvents = 'none';
+        if (btn.textContent.trim() === correct) {
+            btn.style.background = '#4CAF50';
+            btn.style.color = 'white';
+            btn.style.borderColor = '#4CAF50';
+        } else if (btn.textContent.trim() === selected && selected !== correct) {
+            btn.style.background = '#F44336';
+            btn.style.color = 'white';
+            btn.style.borderColor = '#F44336';
+        }
+    });
+
+    nextBtn.style.display = 'block';
+}
+
+function nextBlank() {
+    blankIndex++;
+    renderFillInTheBlanks();
+}
+
+function resetFillInTheBlanks() {
+    blankIndex = 0;
+    blankScore = 0;
+    renderFillInTheBlanks();
+}
 function renderDebate() {
     document.getElementById('mainContent').innerHTML = `
         <span class="emoji">🔥</span>

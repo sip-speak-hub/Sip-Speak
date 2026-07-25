@@ -126,7 +126,7 @@ function renderScreen() {
         case 9: renderRolePlay(); break;
         case 10: renderReflection(); break;
     }
-
+}
 function renderWelcome() {
     document.getElementById('mainContent').innerHTML = `
         <div class="text-center">

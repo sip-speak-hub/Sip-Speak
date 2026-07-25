@@ -102,13 +102,50 @@ const lessonData = {
 
 // ================= APP STATE =================
 let currentStep = 0;
-const totalSteps = 13;
+const totalSteps = 14;
 let timerInterval = null;
 let timeLeft = 60;
 let currentCategory = 0;
 let currentQuizIndex = 0;
 
 const allVocab = Object.values(lessonData.vocabCategories).flat();
+// === ПЕРЕМЕННЫЕ ДЛЯ Fill in the Blanks (Lesson 3 - Travel Diary Theme) ===
+let blankIndex = 0;
+let blankScore = 0;
+let blankSelected = false;
+
+const fillInBlanksData = [
+    {
+        context: "🎒 Day 1: Packing",
+        sentence: "I decided to ___ and only bring a small carry-on backpack.",
+        options: ["travel light", "hit the road", "go with the flow", "book in advance"],
+        correct: "travel light"
+    },
+    {
+        context: "🌍 Day 3: New Experiences",
+        sentence: "The ___ was real at first, but I quickly adapted to the local customs.",
+        options: ["wanderlust", "culture shock", "language barrier", "homesickness"],
+        correct: "culture shock"
+    },
+    {
+        context: "☕ Day 5: Discoveries",
+        sentence: "We found a ___ café downtown that wasn't in any tourist guidebook!",
+        options: ["tourist trap", "picturesque", "hidden gem", "authentic"],
+        correct: "hidden gem"
+    },
+    {
+        context: "🧠 Day 10: Personal Growth",
+        sentence: "This trip definitely helped me ___ and see the world from a new perspective.",
+        options: ["get off the grid", "broaden my horizons", "step out of my comfort zone", "immerse myself"],
+        correct: "broaden my horizons"
+    },
+    {
+        context: "✈️ Day 15: Looking Forward",
+        sentence: "I'm already planning my next adventure. I have a serious case of ___!",
+        options: ["wanderlust", "sustainable tourism", "staycation", "red-eye flight"],
+        correct: "wanderlust"
+    }
+];
 // === НОВЫЕ ПЕРЕМЕННЫЕ ДЛЯ VOCABULARY BATTLE ===
 let vocabBattleIndex = 0;
 let vocabBattleScore = 0;
@@ -141,20 +178,21 @@ function renderScreen() {
         prevBtn.style.visibility = 'visible';
     }
 
-    switch(currentStep) {
+        switch(currentStep) {
         case 0: renderWelcome(); break;
         case 1: renderWarmUp(); break;
         case 2: renderVocabCategories(); break;
         case 3: renderVocabByCategory(); break;
         case 4: renderVocabBattle(); break;
-        case 5: renderTravelQuiz(); break;
-        case 6: renderStory(); break;
-        case 7: renderDiscussion(); break;
-        case 8: renderChallenge(); break;
-        case 9: renderDebate(); break;
-        case 10: renderRolePlay(); break;
-        case 11: renderPackingChallenge(); break;
-        case 12: renderReflection(); break;
+        case 5: renderFillInTheBlanks(); break; // ← ДОБАВИТЬ ЭТУ СТРОКУ
+        case 6: renderTravelQuiz(); break;
+        case 7: renderStory(); break;
+        case 8: renderDiscussion(); break;
+        case 9: renderChallenge(); break;
+        case 10: renderDebate(); break;
+        case 11: renderRolePlay(); break;
+        case 12: renderPackingChallenge(); break;
+        case 13: renderReflection(); break;
     }
 }
 
@@ -475,6 +513,113 @@ function renderChallenge() {
     `;
 }
 
+function renderFillInTheBlanks() {
+    if (blankIndex >= fillInBlanksData.length) {
+        const percentage = Math.round((blankScore / fillInBlanksData.length) * 100);
+        let emoji = percentage === 100 ? '🏆' : percentage >= 75 ? '🌟' : '💪';
+        
+        document.getElementById('mainContent').innerHTML = `
+            <span class="emoji">${emoji}</span>
+            <h2 style="color: var(--primary);">Travel Diary Complete!</h2>
+            <div style="text-align: center; margin: 30px 0;">
+                <div style="font-size: 4rem; font-weight: bold; color: var(--primary);">${blankScore}/${fillInBlanksData.length}</div>
+                <p style="font-size: 1.2rem; color: var(--text-secondary); margin-top: 10px;">entries filled correctly</p>
+            </div>
+            <button class="btn btn-primary mt-20" onclick="resetFillInTheBlanks()" style="width: 100%;">🔄 Write Again</button>
+        `;
+        return;
+    }
+
+    const current = fillInBlanksData[blankIndex];
+    const progress = ((blankIndex) / fillInBlanksData.length) * 100;
+
+    document.getElementById('mainContent').innerHTML = `
+        <span class="emoji">📝</span>
+        <h2 style="color: var(--primary);">Fill in the Travel Diary</h2>
+        <p style="color: var(--text-secondary); margin-bottom: 10px;">Entry ${blankIndex + 1} of ${fillInBlanksData.length}</p>
+        
+        <div style="background: #e0e0e0; height: 8px; border-radius: 4px; margin-bottom: 30px; overflow: hidden;">
+            <div style="background: var(--primary); height: 100%; width: ${progress}%; transition: width 0.3s ease;"></div>
+        </div>
+
+        <!-- СТИЛЬ ДНЕВНИКА ПУТЕШЕСТВЕННИКА -->
+        <div style="background: #FFF9F0; border-left: 5px solid #984A39; padding: 25px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 30px;">
+            <div style="font-family: 'Caveat', cursive; font-size: 1.6rem; color: #984A39; margin-bottom: 15px;">${current.context}</div>
+            <div style="font-size: 1.2rem; line-height: 1.6; color: #333;">
+                "${current.sentence.replace('___', `<span id="blankSpace" style="border-bottom: 2px dashed #984A39; color: #984A39; font-weight: bold; padding: 0 8px; background: rgba(152, 74, 57, 0.1); border-radius: 4px;">___</span>`)}"
+            </div>
+        </div>
+
+        <div id="optionsContainer" style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;">
+            ${current.options.map(opt => `
+                <button onclick="checkBlankAnswer('${opt}', '${current.correct}')" 
+                    style="padding: 12px 24px; border: 2px solid #984A39; background: white; color: #984A39; border-radius: 25px; cursor: pointer; font-family: 'Quicksand', sans-serif; font-weight: 600; font-size: 1rem; transition: all 0.2s ease; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+                    ${opt}
+                </button>
+            `).join('')}
+        </div>
+
+        <div id="feedbackMessage" style="text-align: center; margin-top: 25px; font-weight: 600; font-size: 1.1rem; min-height: 30px;"></div>
+
+        <button id="nextBlankBtn" class="btn btn-primary mt-20" onclick="nextBlank()" style="width: 100%; display: none; background: #984A39; border: none;">Next Entry →</button>
+    `;
+    
+    blankSelected = false;
+}
+
+function checkBlankAnswer(selected, correct) {
+    if (blankSelected) return;
+    blankSelected = true;
+
+    const blankSpace = document.getElementById('blankSpace');
+    const feedback = document.getElementById('feedbackMessage');
+    const nextBtn = document.getElementById('nextBlankBtn');
+    const optionsContainer = document.getElementById('optionsContainer');
+
+    blankSpace.textContent = selected;
+
+    if (selected === correct) {
+        blankScore++;
+        blankSpace.style.borderColor = '#4CAF50';
+        blankSpace.style.color = '#4CAF50';
+        blankSpace.style.background = 'rgba(76, 175, 80, 0.1)';
+        feedback.textContent = '✅ Perfect! Fits the story.';
+        feedback.style.color = '#4CAF50';
+    } else {
+        blankSpace.style.borderColor = '#F44336';
+        blankSpace.style.color = '#F44336';
+        blankSpace.style.background = 'rgba(244, 67, 54, 0.1)';
+        feedback.textContent = `❌ Not quite. The correct phrase is "${correct}".`;
+        feedback.style.color = '#F44336';
+    }
+
+    const buttons = optionsContainer.querySelectorAll('button');
+    buttons.forEach(btn => {
+        btn.style.pointerEvents = 'none';
+        if (btn.textContent.trim() === correct) {
+            btn.style.background = '#4CAF50';
+            btn.style.color = 'white';
+            btn.style.borderColor = '#4CAF50';
+        } else if (btn.textContent.trim() === selected && selected !== correct) {
+            btn.style.background = '#F44336';
+            btn.style.color = 'white';
+            btn.style.borderColor = '#F44336';
+        }
+    });
+
+    nextBtn.style.display = 'block';
+}
+
+function nextBlank() {
+    blankIndex++;
+    renderFillInTheBlanks();
+}
+
+function resetFillInTheBlanks() {
+    blankIndex = 0;
+    blankScore = 0;
+    renderFillInTheBlanks();
+}
 function renderDebate() {
     document.getElementById('mainContent').innerHTML = `
         <span class="emoji">🔥</span>
