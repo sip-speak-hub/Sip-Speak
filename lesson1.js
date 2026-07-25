@@ -498,14 +498,15 @@ function renderReflection() {
 </div>
         
         <!-- ВОТ СЮДА ВСТАВЬ КНОПКУ: -->
-        <button class="btn btn-primary mt-20" onclick="generateCheatSheet()" style="width: 100%;">
-    📥 Download PDF Cheat Sheet
-</button>
-
-<button class="btn btn-secondary mt-20" onclick="generateHomeworkPDF()" style="width: 100%; border: 2px solid var(--primary); color: var(--primary); background: white;">
-    📝 Download Homework PDF
-</button>
+          <button class="btn btn-primary mt-20" onclick="generateCheatSheet()" style="width: 100%;">
+            📥 Download PDF Cheat Sheet
+        </button>
         
+        <button class="btn btn-secondary mt-20" onclick="generateHomeworkPDF()" style="width: 100%;">
+            📝 Download Homework PDF
+        </button>
+    `;
+}  
         <div class="text-center mt-20">
     <h3 style="color: var(--primary); font-family: 'Comfortaa', cursive;">Cheers to your journey! ☕✨</h3>
     <p style="margin-top: 10px;">Keep sharing your story and connecting with others!</p>
