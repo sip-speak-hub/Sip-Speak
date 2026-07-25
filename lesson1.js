@@ -488,32 +488,29 @@ function renderReflection() {
         <h2>Wrap-up & Reflection</h2>
         <p>Reflect with your partner:</p>
         <div class="question-box mt-20" style="border-left: none;">
-    <ul style="padding-left: 20px; line-height: 2.2;">
-        <li>What's one new thing you learned about your partner today?</li>
-        <li>Which expression from today will you use when introducing yourself?</li>
-        <li>How would you describe yourself using 3 words from today's vocabulary?</li>
-        <li>What's one personal goal you want to share with the group?</li>
-        <li>What surprised you most about someone's story today?</li>
-    </ul>
-</div>
+            <ul style="padding-left: 20px; line-height: 2.2;">
+                <li>What's one new thing you learned about your partner today?</li>
+                <li>Which expression from today will you use when introducing yourself?</li>
+                <li>How would you describe yourself using 3 words from today's vocabulary?</li>
+                <li>What's one personal goal you want to share with the group?</li>
+                <li>What surprised you most about someone's story today?</li>
+            </ul>
+        </div>
         
-        <!-- ВОТ СЮДА ВСТАВЬ КНОПКУ: -->
-          <button class="btn btn-primary mt-20" onclick="generateCheatSheet()" style="width: 100%;">
+        <button class="btn btn-primary mt-20" onclick="generateCheatSheet()" style="width: 100%; background: #8B6F47; color: white; border: none; padding: 15px 30px; border-radius: 12px; font-family: 'Quicksand', sans-serif; font-weight: 600; font-size: 1rem; cursor: pointer;">
             📥 Download PDF Cheat Sheet
         </button>
         
-        <button class="btn btn-secondary mt-20" onclick="generateHomeworkPDF()" style="width: 100%;">
+        <button class="btn btn-secondary mt-20" onclick="generateHomeworkPDF()" style="width: 100%; background: white; color: #8B6F47; border: 2px solid #8B6F47; padding: 15px 30px; border-radius: 12px; font-family: 'Quicksand', sans-serif; font-weight: 600; font-size: 1rem; cursor: pointer; margin-top: 15px;">
             📝 Download Homework PDF
         </button>
-    `;
-}  
-        <div class="text-center mt-20">
-    <h3 style="color: var(--primary); font-family: 'Comfortaa', cursive;">Cheers to your journey! ☕✨</h3>
-    <p style="margin-top: 10px;">Keep sharing your story and connecting with others!</p>
-</div>
-    `;  // ← Закрывающая кавычка и точка с запятой ОБЯЗАТЕЛЬНЫ!
-}
 
+        <div class="text-center mt-20">
+            <h3 style="color: var(--primary); font-family: 'Comfortaa', cursive;">Cheers to your journey! ☕✨</h3>
+            <p style="margin-top: 10px;">Keep sharing your story and connecting with others!</p>
+        </div>
+    `; // ← ТОЛЬКО ОДНА закрывающая кавычка и точка с запятой в самом конце!
+}
 // ================= TIMER LOGIC =================
 function startTimer(seconds = 60) {
     clearInterval(timerInterval);
