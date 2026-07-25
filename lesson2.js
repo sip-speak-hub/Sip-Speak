@@ -780,8 +780,12 @@ function renderReflection() {
         
         <!-- ВОТ СЮДА ВСТАВЬ КНОПКУ: -->
         <button class="btn btn-primary mt-20" onclick="generateCheatSheet()" style="width: 100%;">
-            📥 Download PDF Cheat Sheet
-        </button>
+    📥 Download PDF Cheat Sheet
+</button>
+
+<button class="btn btn-secondary mt-20" onclick="generateHomeworkPDF()" style="width: 100%; border: 2px solid var(--primary); color: var(--primary); background: white;">
+    📝 Download Homework PDF
+</button>
         
         <div class="text-center mt-20">
     <h3 style="color: var(--primary); font-family: 'Comfortaa', cursive;">Lights, camera, action! 🎬✨</h3>
@@ -962,6 +966,118 @@ function generateCheatSheet() {
     };
 
     html2pdf().set(opt).from(cheatSheetHTML).save();
+}
+function generateHomeworkPDF() {
+    const homeworkHTML = `
+        <div style="font-family: 'Quicksand', sans-serif; padding: 30px 25px; background: white; min-height: 100vh;">
+            <!-- HEADER -->
+            <div style="text-align: center; margin-bottom: 20px; border-bottom: 3px solid #E07A5F; padding-bottom: 12px;">
+                <h1 style="font-family: 'Fredoka One', cursive; font-size: 2.2rem; color: #E07A5F; margin: 0; letter-spacing: 2px;">Sip & Speak</h1>
+                <h2 style="font-family: 'Quicksand', sans-serif; font-size: 1.1rem; color: #F2A6B9; margin: 4px 0 0 0; font-weight: 600;">${lessonData.title} — Worksheet</h2>
+                <p style="font-size: 0.8rem; color: #999; margin: 4px 0 0 0;">Name: ___________________________ Date: ____________</p>
+            </div>
+
+            <!-- WORD BANK -->
+            <div style="background: #FFF0F3; border: 2px dashed #F2A6B9; border-radius: 10px; padding: 12px; margin-bottom: 18px; page-break-inside: avoid;">
+                <h4 style="margin: 0 0 8px 0; color: #E07A5F; font-size: 0.9rem;"> Word Bank:</h4>
+                <div style="display: flex; flex-wrap: wrap; gap: 6px; justify-content: center;">
+                    <span style="background: white; padding: 4px 10px; border-radius: 12px; border: 1px solid #F2A6B9; font-size: 0.85rem; color: #E07A5F; font-weight: 600;">plot twist</span>
+                    <span style="background: white; padding: 4px 10px; border-radius: 12px; border: 1px solid #F2A6B9; font-size: 0.85rem; color: #E07A5F; font-weight: 600;">binge-worthy</span>
+                    <span style="background: white; padding: 4px 10px; border-radius: 12px; border: 1px solid #F2A6B9; font-size: 0.85rem; color: #E07A5F; font-weight: 600;">overrated</span>
+                    <span style="background: white; padding: 4px 10px; border-radius: 12px; border: 1px solid #F2A6B9; font-size: 0.85rem; color: #E07A5F; font-weight: 600;">underrated gem</span>
+                    <span style="background: white; padding: 4px 10px; border-radius: 12px; border: 1px solid #F2A6B9; font-size: 0.85rem; color: #E07A5F; font-weight: 600;">gripping</span>
+                    <span style="background: white; padding: 4px 10px; border-radius: 12px; border: 1px solid #F2A6B9; font-size: 0.85rem; color: #E07A5F; font-weight: 600;">predictable</span>
+                    <span style="background: white; padding: 4px 10px; border-radius: 12px; border: 1px solid #F2A6B9; font-size: 0.85rem; color: #E07A5F; font-weight: 600;">thought-provoking</span>
+                    <span style="background: white; padding: 4px 10px; border-radius: 12px; border: 1px solid #F2A6B9; font-size: 0.85rem; color: #E07A5F; font-weight: 600;">guilty pleasure</span>
+                </div>
+            </div>
+
+            <!-- EXERCISE 1 -->
+            <div style="margin-bottom: 18px; page-break-inside: avoid;">
+                <h3 style="color: #E07A5F; font-size: 1rem; margin: 0 0 8px 0; border-left: 4px solid #E07A5F; padding-left: 8px;">Exercise 1: Fill in the Blanks</h3>
+                <p style="font-size: 0.85rem; color: #666; margin: 0 0 10px 0;">Complete the sentences using words from the Word Bank.</p>
+                <div style="line-height: 2; font-size: 0.9rem; color: #333;">
+                    <p style="margin: 5px 0;">1. The _______________ at the end of the movie completely surprised me!</p>
+                    <p style="margin: 5px 0;">2. This series is so _______________ — I watched all 8 episodes in one day.</p>
+                    <p style="margin: 5px 0;">3. Everyone loved that film, but I found it pretty _______________.</p>
+                    <p style="margin: 5px 0;">4. This indie movie is an _______________ — more people should see it!</p>
+                    <p style="margin: 5px 0;">5. The thriller was so _______________ that I couldn't look away.</p>
+                    <p style="margin: 5px 0;">6. The ending was too _______________ — I guessed it from the beginning.</p>
+                    <p style="margin: 5px 0;">7. It's a _______________ film about identity and culture.</p>
+                    <p style="margin: 5px 0;">8. Romantic comedies are my _______________ — I know they're not "serious" cinema!</p>
+                </div>
+            </div>
+
+            <!-- EXERCISE 2 -->
+            <div style="margin-bottom: 18px; page-break-inside: avoid;">
+                <h3 style="color: #E07A5F; font-size: 1rem; margin: 0 0 8px 0; border-left: 4px solid #E07A5F; padding-left: 8px;">Exercise 2: Match the Word with Its Definition</h3>
+                <p style="font-size: 0.85rem; color: #666; margin: 0 0 10px 0;">Connect each word (1-5) with its correct definition (A-E).</p>
+                <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
+                    <div style="width: 48%;">
+                        <p style="margin: 4px 0;"><strong>Words:</strong></p>
+                        <p style="margin: 4px 0;">1. plot twist</p>
+                        <p style="margin: 4px 0;">2. binge-worthy</p>
+                        <p style="margin: 4px 0;">3. gripping</p>
+                        <p style="margin: 4px 0;">4. predictable</p>
+                        <p style="margin: 4px 0;">5. guilty pleasure</p>
+                    </div>
+                    <div style="width: 48%;">
+                        <p style="margin: 4px 0;"><strong>Definitions:</strong></p>
+                        <p style="margin: 4px 0;">A. holding your attention completely</p>
+                        <p style="margin: 4px 0;">B. something you enjoy but feel embarrassed about</p>
+                        <p style="margin: 4px 0;">C. an unexpected change in the story</p>
+                        <p style="margin: 4px 0;">D. you can guess what will happen</p>
+                        <p style="margin: 4px 0;">E. so good you want to watch many episodes</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EXERCISE 3 -->
+            <div style="margin-bottom: 18px; page-break-inside: avoid;">
+                <h3 style="color: #E07A5F; font-size: 1rem; margin: 0 0 8px 0; border-left: 4px solid #E07A5F; padding-left: 8px;">Exercise 3: Write Your Own Sentences</h3>
+                <p style="font-size: 0.85rem; color: #666; margin: 0 0 10px 0;">Choose <strong>3 words</strong> from the Word Bank and write your own sentence for each.</p>
+                <div style="line-height: 2.2; font-size: 0.9rem;">
+                    <p style="margin: 4px 0;"><strong>Word 1:</strong> _______________</p>
+                    <p style="margin: 0; border-bottom: 1px solid #ccc; height: 25px;"></p>
+                    <p style="margin: 10px 0 4px 0;"><strong>Word 2:</strong> _______________</p>
+                    <p style="margin: 0; border-bottom: 1px solid #ccc; height: 25px;"></p>
+                    <p style="margin: 10px 0 4px 0;"><strong>Word 3:</strong> _______________</p>
+                    <p style="margin: 0; border-bottom: 1px solid #ccc; height: 25px;"></p>
+                </div>
+            </div>
+
+            <!-- EXERCISE 4 -->
+            <div style="margin-bottom: 10px;">
+                <h3 style="color: #E07A5F; font-size: 1rem; margin: 0 0 8px 0; border-left: 4px solid #E07A5F; padding-left: 8px;">Exercise 4: Mini Writing Task</h3>
+                <p style="font-size: 0.85rem; color: #666; margin: 0 0 8px 0;">Write a short paragraph (5-7 sentences). Use at least <strong>4 words</strong> from the Word Bank.</p>
+                <div style="background: #FFF0F3; border-radius: 8px; padding: 8px; margin-bottom: 8px; border-left: 3px solid #F2A6B9;">
+                    <p style="margin: 0; font-size: 0.9rem; color: #E07A5F; font-weight: 600; font-style: italic;">"Describe your favorite movie. Why do you love it? What makes it special?"</p>
+                </div>
+                <div style="line-height: 2;">
+                    <p style="margin: 0; border-bottom: 1px solid #ccc; height: 22px;"></p>
+                    <p style="margin: 0; border-bottom: 1px solid #ccc; height: 22px;"></p>
+                    <p style="margin: 0; border-bottom: 1px solid #ccc; height: 22px;"></p>
+                    <p style="margin: 0; border-bottom: 1px solid #ccc; height: 22px;"></p>
+                    <p style="margin: 0; border-bottom: 1px solid #ccc; height: 22px;"></p>
+                </div>
+            </div>
+
+            <!-- FOOTER -->
+            <div style="text-align: center; padding-top: 10px; border-top: 2px solid #F2A6B9;">
+                <p style="margin: 0; color: #E07A5F; font-size: 0.8rem; font-style: italic;">Sip & Speak — Learn Today, Speak Tomorrow, Succeed Forever! 🎬</p>
+            </div>
+        </div>
+    `;
+
+    const opt = {
+        margin: [8, 8, 8, 8],
+        filename: `Sip_Speak_${lessonData.title.replace(/\s+/g, '_')}_Worksheet.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true, scrollY: 0 },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+
+    html2pdf().set(opt).from(homeworkHTML).save();
 }
 // ================= PERSONAL DICTIONARY =================
 function addToDictionary(word, definition, example) {

@@ -499,8 +499,12 @@ function renderReflection() {
         
         <!-- ВОТ СЮДА ВСТАВЬ КНОПКУ: -->
         <button class="btn btn-primary mt-20" onclick="generateCheatSheet()" style="width: 100%;">
-            📥 Download PDF Cheat Sheet
-        </button>
+    📥 Download PDF Cheat Sheet
+</button>
+
+<button class="btn btn-secondary mt-20" onclick="generateHomeworkPDF()" style="width: 100%; border: 2px solid var(--primary); color: var(--primary); background: white;">
+    📝 Download Homework PDF
+</button>
         
         <div class="text-center mt-20">
     <h3 style="color: var(--primary); font-family: 'Comfortaa', cursive;">Cheers to your journey! ☕✨</h3>
@@ -717,6 +721,132 @@ function generateCheatSheet() {
     };
 
     html2pdf().set(opt).from(cheatSheetHTML).save();
+}
+function generateHomeworkPDF() {
+    const homeworkHTML = `
+        <div style="font-family: 'Quicksand', sans-serif; padding: 40px 35px; background: white; min-height: 100vh;">
+            <!-- HEADER -->
+            <div style="text-align: center; margin-bottom: 30px; border-bottom: 3px solid #8B6F47; padding-bottom: 15px;">
+                <h1 style="font-family: 'Fredoka One', cursive; font-size: 2.5rem; color: #8B6F47; margin: 0; letter-spacing: 2px;">Sip & Speak</h1>
+                <h2 style="font-family: 'Quicksand', sans-serif; font-size: 1.2rem; color: #D4A574; margin: 5px 0 0 0; font-weight: 600;">${lessonData.title} — Worksheet</h2>
+                <p style="font-size: 0.85rem; color: #999; margin: 5px 0 0 0;">Name: ___________________________ Date: ____________</p>
+            </div>
+
+            <!-- WORD BANK -->
+            <div style="background: #FFF9F5; border: 2px dashed #D4A574; border-radius: 12px; padding: 15px; margin-bottom: 25px;">
+                <h4 style="margin: 0 0 10px 0; color: #8B6F47; font-size: 0.95rem;"> Word Bank:</h4>
+                <div style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;">
+                    <span style="background: white; padding: 5px 12px; border-radius: 15px; border: 1px solid #D4A574; font-size: 0.9rem; color: #8B6F47; font-weight: 600;">to go by</span>
+                    <span style="background: white; padding: 5px 12px; border-radius: 15px; border: 1px solid #D4A574; font-size: 0.9rem; color: #8B6F47; font-weight: 600;">to be named after</span>
+                    <span style="background: white; padding: 5px 12px; border-radius: 15px; border: 1px solid #D4A574; font-size: 0.9rem; color: #8B6F47; font-weight: 600;">namesake</span>
+                    <span style="background: white; padding: 5px 12px; border-radius: 15px; border: 1px solid #D4A574; font-size: 0.9rem; color: #8B6F47; font-weight: 600;">to carry a legacy</span>
+                    <span style="background: white; padding: 5px 12px; border-radius: 15px; border: 1px solid #D4A574; font-size: 0.9rem; color: #8B6F47; font-weight: 600;">to live up to</span>
+                    <span style="background: white; padding: 5px 12px; border-radius: 15px; border: 1px solid #D4A574; font-size: 0.9rem; color: #8B6F47; font-weight: 600;">roots</span>
+                    <span style="background: white; padding: 5px 12px; border-radius: 15px; border: 1px solid #D4A574; font-size: 0.9rem; color: #8B6F47; font-weight: 600;">to shape who I am</span>
+                    <span style="background: white; padding: 5px 12px; border-radius: 15px; border: 1px solid #D4A574; font-size: 0.9rem; color: #8B6F47; font-weight: 600;">background</span>
+                    <span style="background: white; padding: 5px 12px; border-radius: 15px; border: 1px solid #D4A574; font-size: 0.9rem; color: #8B6F47; font-weight: 600;">passion</span>
+                    <span style="background: white; padding: 5px 12px; border-radius: 15px; border: 1px solid #D4A574; font-size: 0.9rem; color: #8B6F47; font-weight: 600;">what drives me</span>
+                </div>
+            </div>
+
+            <!-- EXERCISE 1: FILL IN THE BLANKS -->
+            <div style="margin-bottom: 25px;">
+                <h3 style="color: #8B6F47; font-size: 1.1rem; margin: 0 0 12px 0; border-left: 4px solid #8B6F47; padding-left: 10px;">Exercise 1: Fill in the Blanks</h3>
+                <p style="font-size: 0.9rem; color: #666; margin: 0 0 15px 0;">Complete the sentences using words from the Word Bank. Use each word <strong>only once</strong>.</p>
+                
+                <div style="line-height: 2.2; font-size: 0.95rem; color: #333;">
+                    <p style="margin: 8px 0;">1. My name is Alexander, but I _______________ by Alex.</p>
+                    <p style="margin: 8px 0;">2. I was _______________ my grandmother — we have the same name.</p>
+                    <p style="margin: 8px 0;">3. As the eldest child, I feel I _______________ of our family.</p>
+                    <p style="margin: 8px 0;">4. I hope I can _______________ my parents' expectations.</p>
+                    <p style="margin: 8px 0;">5. I'm very proud of my _______________ and where I come from.</p>
+                    <p style="margin: 8px 0;">6. My travels really _______________ today.</p>
+                    <p style="margin: 8px 0;">7. People from different _______________ bring unique perspectives.</p>
+                    <p style="margin: 8px 0;">8. My _______________ is photography and capturing moments.</p>
+                    <p style="margin: 8px 0;">9. _______________ is the desire to make a difference in the world.</p>
+                </div>
+            </div>
+
+            <!-- EXERCISE 2: MATCH THE DEFINITION -->
+            <div style="margin-bottom: 25px; page-break-inside: avoid;">
+                <h3 style="color: #8B6F47; font-size: 1.1rem; margin: 0 0 12px 0; border-left: 4px solid #8B6F47; padding-left: 10px;">Exercise 2: Match the Word with Its Definition</h3>
+                <p style="font-size: 0.9rem; color: #666; margin: 0 0 15px 0;">Draw a line to connect each word (1-6) with its correct definition (A-F).</p>
+                
+                <div style="display: flex; justify-content: space-between; font-size: 0.9rem;">
+                    <div style="width: 45%;">
+                        <p style="margin: 8px 0;"><strong>Words:</strong></p>
+                        <p style="margin: 6px 0;">1. namesake</p>
+                        <p style="margin: 6px 0;">2. roots</p>
+                        <p style="margin: 6px 0;">3. passion</p>
+                        <p style="margin: 6px 0;">4. background</p>
+                        <p style="margin: 6px 0;">5. legacy</p>
+                        <p style="margin: 6px 0;">6. to live up to</p>
+                    </div>
+                    <div style="width: 50%;">
+                        <p style="margin: 8px 0;"><strong>Definitions:</strong></p>
+                        <p style="margin: 6px 0;">A. family origins or cultural history</p>
+                        <p style="margin: 6px 0;">B. to meet someone's expectations</p>
+                        <p style="margin: 6px 0;">C. a person with the same name as another</p>
+                        <p style="margin: 6px 0;">D. strong interest or enthusiasm</p>
+                        <p style="margin: 6px 0;">E. your history, experiences, upbringing</p>
+                        <p style="margin: 6px 0;">F. family history or traditions passed down</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EXERCISE 3: WRITE YOUR OWN SENTENCES -->
+            <div style="margin-bottom: 25px; page-break-inside: avoid;">
+                <h3 style="color: #8B6F47; font-size: 1.1rem; margin: 0 0 12px 0; border-left: 4px solid #8B6F47; padding-left: 10px;">Exercise 3: Write Your Own Sentences</h3>
+                <p style="font-size: 0.9rem; color: #666; margin: 0 0 15px 0;">Choose <strong>3 words</strong> from the Word Bank and write your own sentence for each one.</p>
+                
+                <div style="line-height: 2.5; font-size: 0.95rem;">
+                    <p style="margin: 5px 0;"><strong>Word 1:</strong> _______________</p>
+                    <p style="margin: 0; border-bottom: 1px solid #ccc; height: 30px;"></p>
+                    
+                    <p style="margin: 15px 0 5px 0;"><strong>Word 2:</strong> _______________</p>
+                    <p style="margin: 0; border-bottom: 1px solid #ccc; height: 30px;"></p>
+                    
+                    <p style="margin: 15px 0 5px 0;"><strong>Word 3:</strong> _______________</p>
+                    <p style="margin: 0; border-bottom: 1px solid #ccc; height: 30px;"></p>
+                </div>
+            </div>
+
+            <!-- EXERCISE 4: MINI WRITING TASK -->
+            <div style="margin-bottom: 20px; page-break-inside: avoid;">
+                <h3 style="color: #8B6F47; font-size: 1.1rem; margin: 0 0 12px 0; border-left: 4px solid #8B6F47; padding-left: 10px;">Exercise 4: Mini Writing Task</h3>
+                <p style="font-size: 0.9rem; color: #666; margin: 0 0 15px 0;">Write a short paragraph (5-7 sentences) answering the question below. Try to use at least <strong>4 words</strong> from the Word Bank.</p>
+                
+                <div style="background: #FFF9F5; border-radius: 10px; padding: 15px; margin-bottom: 15px; border-left: 3px solid #D4A574;">
+                    <p style="margin: 0; font-size: 1rem; color: #8B6F47; font-weight: 600; font-style: italic;">"What makes you unique? Describe your background, your passions, and what drives you."</p>
+                </div>
+                
+                <div style="line-height: 2.5;">
+                    <p style="margin: 0; border-bottom: 1px solid #ccc; height: 28px;"></p>
+                    <p style="margin: 0; border-bottom: 1px solid #ccc; height: 28px;"></p>
+                    <p style="margin: 0; border-bottom: 1px solid #ccc; height: 28px;"></p>
+                    <p style="margin: 0; border-bottom: 1px solid #ccc; height: 28px;"></p>
+                    <p style="margin: 0; border-bottom: 1px solid #ccc; height: 28px;"></p>
+                    <p style="margin: 0; border-bottom: 1px solid #ccc; height: 28px;"></p>
+                    <p style="margin: 0; border-bottom: 1px solid #ccc; height: 28px;"></p>
+                </div>
+            </div>
+
+            <!-- FOOTER -->
+            <div style="text-align: center; padding-top: 15px; border-top: 2px solid #D4A574; margin-top: 20px;">
+                <p style="margin: 0; color: #8B6F47; font-size: 0.85rem; font-style: italic;">Sip & Speak — Learn Today, Speak Tomorrow, Succeed Forever! </p>
+            </div>
+        </div>
+    `;
+
+    const opt = {
+        margin: [10, 10, 10, 10],
+        filename: `Sip_Speak_${lessonData.title.replace(/\s+/g, '_')}_Worksheet.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+
+    html2pdf().set(opt).from(homeworkHTML).save();
 }
 // ================= PERSONAL DICTIONARY =================
 function addToDictionary(word, definition, example) {

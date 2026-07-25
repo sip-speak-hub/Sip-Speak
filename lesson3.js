@@ -716,8 +716,12 @@ function renderReflection() {
         
         <!-- ВОТ СЮДА ВСТАВЬ КНОПКУ: -->
         <button class="btn btn-primary mt-20" onclick="generateCheatSheet()" style="width: 100%;">
-            📥 Download PDF Cheat Sheet
-        </button>
+    📥 Download PDF Cheat Sheet
+</button>
+
+<button class="btn btn-secondary mt-20" onclick="generateHomeworkPDF()" style="width: 100%; border: 2px solid var(--primary); color: var(--primary); background: white;">
+    📝 Download Homework PDF
+</button>
         
         <div class="text-center mt-20">
     <h3 style="color: var(--primary); font-family: 'Comfortaa', cursive;">Safe travels! ✈️🌍</h3>
@@ -898,6 +902,118 @@ function generateCheatSheet() {
     };
 
     html2pdf().set(opt).from(cheatSheetHTML).save();
+}
+function generateHomeworkPDF() {
+    const homeworkHTML = `
+        <div style="font-family: 'Quicksand', sans-serif; padding: 30px 25px; background: white; min-height: 100vh;">
+            <!-- HEADER -->
+            <div style="text-align: center; margin-bottom: 20px; border-bottom: 3px solid #5B9BD5; padding-bottom: 12px;">
+                <h1 style="font-family: 'Fredoka One', cursive; font-size: 2.2rem; color: #5B9BD5; margin: 0; letter-spacing: 2px;">Sip & Speak</h1>
+                <h2 style="font-family: 'Quicksand', sans-serif; font-size: 1.1rem; color: #A9D0F5; margin: 4px 0 0 0; font-weight: 600;">${lessonData.title} — Worksheet</h2>
+                <p style="font-size: 0.8rem; color: #999; margin: 4px 0 0 0;">Name: ___________________________ Date: ____________</p>
+            </div>
+
+            <!-- WORD BANK -->
+            <div style="background: #F0F8FF; border: 2px dashed #A9D0F5; border-radius: 10px; padding: 12px; margin-bottom: 18px; page-break-inside: avoid;">
+                <h4 style="margin: 0 0 8px 0; color: #5B9BD5; font-size: 0.9rem;">️ Word Bank:</h4>
+                <div style="display: flex; flex-wrap: wrap; gap: 6px; justify-content: center;">
+                    <span style="background: white; padding: 4px 10px; border-radius: 12px; border: 1px solid #A9D0F5; font-size: 0.85rem; color: #5B9BD5; font-weight: 600;">off the beaten path</span>
+                    <span style="background: white; padding: 4px 10px; border-radius: 12px; border: 1px solid #A9D0F5; font-size: 0.85rem; color: #5B9BD5; font-weight: 600;">culture shock</span>
+                    <span style="background: white; padding: 4px 10px; border-radius: 12px; border: 1px solid #A9D0F5; font-size: 0.85rem; color: #5B9BD5; font-weight: 600;">hidden gem</span>
+                    <span style="background: white; padding: 4px 10px; border-radius: 12px; border: 1px solid #A9D0F5; font-size: 0.85rem; color: #5B9BD5; font-weight: 600;">wanderlust</span>
+                    <span style="background: white; padding: 4px 10px; border-radius: 12px; border: 1px solid #A9D0F5; font-size: 0.85rem; color: #5B9BD5; font-weight: 600;">travel light</span>
+                    <span style="background: white; padding: 4px 10px; border-radius: 12px; border: 1px solid #A9D0F5; font-size: 0.85rem; color: #5B9BD5; font-weight: 600;">breathtaking</span>
+                    <span style="background: white; padding: 4px 10px; border-radius: 12px; border: 1px solid #A9D0F5; font-size: 0.85rem; color: #5B9BD5; font-weight: 600;">tourist trap</span>
+                    <span style="background: white; padding: 4px 10px; border-radius: 12px; border: 1px solid #A9D0F5; font-size: 0.85rem; color: #5B9BD5; font-weight: 600;">go with the flow</span>
+                </div>
+            </div>
+
+            <!-- EXERCISE 1 -->
+            <div style="margin-bottom: 18px; page-break-inside: avoid;">
+                <h3 style="color: #5B9BD5; font-size: 1rem; margin: 0 0 8px 0; border-left: 4px solid #5B9BD5; padding-left: 8px;">Exercise 1: Fill in the Blanks</h3>
+                <p style="font-size: 0.85rem; color: #666; margin: 0 0 10px 0;">Complete the sentences using words from the Word Bank.</p>
+                <div style="line-height: 2; font-size: 0.9rem; color: #333;">
+                    <p style="margin: 5px 0;">1. I prefer exploring _______________ destinations, away from crowds.</p>
+                    <p style="margin: 5px 0;">2. The _______________ was real at first, but I quickly adapted.</p>
+                    <p style="margin: 5px 0;">3. We found a _______________ café that wasn't in any guidebook!</p>
+                    <p style="margin: 5px 0;">4. After that trip, I caught a serious case of _______________.</p>
+                    <p style="margin: 5px 0;">5. I've learned to _______________ — it makes traveling so much easier.</p>
+                    <p style="margin: 5px 0;">6. The views from the mountain were absolutely _______________.</p>
+                    <p style="margin: 5px 0;">7. That restaurant is such a _______________ — overpriced and crowded.</p>
+                    <p style="margin: 5px 0;">8. When plans change, I just try to _______________.</p>
+                </div>
+            </div>
+
+            <!-- EXERCISE 2 -->
+            <div style="margin-bottom: 18px; page-break-inside: avoid;">
+                <h3 style="color: #5B9BD5; font-size: 1rem; margin: 0 0 8px 0; border-left: 4px solid #5B9BD5; padding-left: 8px;">Exercise 2: Match the Word with Its Definition</h3>
+                <p style="font-size: 0.85rem; color: #666; margin: 0 0 10px 0;">Connect each word (1-5) with its correct definition (A-E).</p>
+                <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
+                    <div style="width: 48%;">
+                        <p style="margin: 4px 0;"><strong>Words:</strong></p>
+                        <p style="margin: 4px 0;">1. wanderlust</p>
+                        <p style="margin: 4px 0;">2. hidden gem</p>
+                        <p style="margin: 4px 0;">3. culture shock</p>
+                        <p style="margin: 4px 0;">4. breathtaking</p>
+                        <p style="margin: 4px 0;">5. tourist trap</p>
+                    </div>
+                    <div style="width: 48%;">
+                        <p style="margin: 4px 0;"><strong>Definitions:</strong></p>
+                        <p style="margin: 4px 0;">A. extremely beautiful or impressive</p>
+                        <p style="margin: 4px 0;">B. strong desire to travel and explore</p>
+                        <p style="margin: 4px 0;">C. disorientation from unfamiliar culture</p>
+                        <p style="margin: 4px 0;">D. place that overcharges tourists</p>
+                        <p style="margin: 4px 0;">E. excellent but little-known place</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EXERCISE 3 -->
+            <div style="margin-bottom: 18px; page-break-inside: avoid;">
+                <h3 style="color: #5B9BD5; font-size: 1rem; margin: 0 0 8px 0; border-left: 4px solid #5B9BD5; padding-left: 8px;">Exercise 3: Write Your Own Sentences</h3>
+                <p style="font-size: 0.85rem; color: #666; margin: 0 0 10px 0;">Choose <strong>3 words</strong> from the Word Bank and write your own sentence for each.</p>
+                <div style="line-height: 2.2; font-size: 0.9rem;">
+                    <p style="margin: 4px 0;"><strong>Word 1:</strong> _______________</p>
+                    <p style="margin: 0; border-bottom: 1px solid #ccc; height: 25px;"></p>
+                    <p style="margin: 10px 0 4px 0;"><strong>Word 2:</strong> _______________</p>
+                    <p style="margin: 0; border-bottom: 1px solid #ccc; height: 25px;"></p>
+                    <p style="margin: 10px 0 4px 0;"><strong>Word 3:</strong> _______________</p>
+                    <p style="margin: 0; border-bottom: 1px solid #ccc; height: 25px;"></p>
+                </div>
+            </div>
+
+            <!-- EXERCISE 4 -->
+            <div style="margin-bottom: 10px;">
+                <h3 style="color: #5B9BD5; font-size: 1rem; margin: 0 0 8px 0; border-left: 4px solid #5B9BD5; padding-left: 8px;">Exercise 4: Mini Writing Task</h3>
+                <p style="font-size: 0.85rem; color: #666; margin: 0 0 8px 0;">Write a short paragraph (5-7 sentences). Use at least <strong>4 words</strong> from the Word Bank.</p>
+                <div style="background: #F0F8FF; border-radius: 8px; padding: 8px; margin-bottom: 8px; border-left: 3px solid #A9D0F5;">
+                    <p style="margin: 0; font-size: 0.9rem; color: #5B9BD5; font-weight: 600; font-style: italic;">"Describe your dream trip. Where would you go? What would you do? Why?"</p>
+                </div>
+                <div style="line-height: 2;">
+                    <p style="margin: 0; border-bottom: 1px solid #ccc; height: 22px;"></p>
+                    <p style="margin: 0; border-bottom: 1px solid #ccc; height: 22px;"></p>
+                    <p style="margin: 0; border-bottom: 1px solid #ccc; height: 22px;"></p>
+                    <p style="margin: 0; border-bottom: 1px solid #ccc; height: 22px;"></p>
+                    <p style="margin: 0; border-bottom: 1px solid #ccc; height: 22px;"></p>
+                </div>
+            </div>
+
+            <!-- FOOTER -->
+            <div style="text-align: center; padding-top: 10px; border-top: 2px solid #A9D0F5;">
+                <p style="margin: 0; color: #5B9BD5; font-size: 0.8rem; font-style: italic;">Sip & Speak — Learn Today, Speak Tomorrow, Succeed Forever! ✈️</p>
+            </div>
+        </div>
+    `;
+
+    const opt = {
+        margin: [8, 8, 8, 8],
+        filename: `Sip_Speak_${lessonData.title.replace(/\s+/g, '_')}_Worksheet.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true, scrollY: 0 },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+
+    html2pdf().set(opt).from(homeworkHTML).save();
 }
 // ================= PERSONAL DICTIONARY =================
 function addToDictionary(word, definition, example) {
