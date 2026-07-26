@@ -769,31 +769,29 @@ function renderReflection() {
         <h2>Wrap-up & Reflection</h2>
         <p>Reflect with your partner:</p>
         <div class="question-box mt-20" style="border-left: none;">
-    <ul style="padding-left: 20px; line-height: 2.2;">
-        <li>What's the last movie that made you feel something strong?</li>
-        <li>Which vocabulary word from today describes your favorite film?</li>
-        <li>If you could recommend one movie to your partner, what would it be?</li>
-        <li>How has your taste in movies changed over the years?</li>
-        <li>What movie genre do you think says the most about a person's personality?</li>
-    </ul>
-</div>
+            <ul style="padding-left: 20px; line-height: 2.2;">
+                <li>What's the last movie that made you feel something strong?</li>
+                <li>Which vocabulary word from today describes your favorite film?</li>
+                <li>If you could recommend one movie to your partner, what would it be?</li>
+                <li>How has your taste in movies changed over the years?</li>
+                <li>What movie genre do you think says the most about a person's personality?</li>
+            </ul>
+        </div>
         
-        <!-- ВОТ СЮДА ВСТАВЬ КНОПКУ: -->
-        <button class="btn btn-primary mt-20" onclick="generateCheatSheet()" style="width: 100%;">
-    📥 Download PDF Cheat Sheet
-</button>
+        <button class="btn btn-primary mt-20" onclick="generateCheatSheet()" style="width: 100%; background: #E07A5F; color: white; border: none; padding: 15px 30px; border-radius: 12px; font-family: 'Quicksand', sans-serif; font-weight: 600; font-size: 1rem; cursor: pointer;">
+             Download PDF Cheat Sheet
+        </button>
+        
+        <button class="btn btn-secondary mt-20" onclick="generateHomeworkPDF()" style="width: 100%; background: white; color: #E07A5F; border: 2px solid #E07A5F; padding: 15px 30px; border-radius: 12px; font-family: 'Quicksand', sans-serif; font-weight: 600; font-size: 1rem; cursor: pointer; margin-top: 15px;">
+             Download Homework PDF
+        </button>
 
-<button class="btn btn-secondary mt-20" onclick="generateHomeworkPDF()" style="width: 100%; border: 2px solid var(--primary); color: var(--primary); background: white;">
-    📝 Download Homework PDF
-</button>
-        
         <div class="text-center mt-20">
-    <h3 style="color: var(--primary); font-family: 'Comfortaa', cursive;">Lights, camera, action! 🎬✨</h3>
-    <p style="margin-top: 10px;">Enjoy the show and keep exploring cinema!</p>
-</div>
-    `;  // ← Закрывающая кавычка и точка с запятой ОБЯЗАТЕЛЬНЫ!
+            <h3 style="color: var(--primary); font-family: 'Comfortaa', cursive;">Lights, camera, action! ✨</h3>
+            <p style="margin-top: 10px;">Enjoy the show and keep exploring cinema!</p>
+        </div>
+    `;
 }
-
 // ================= TIMER LOGIC =================
 function startTimer(seconds = 60) {
     clearInterval(timerInterval);
