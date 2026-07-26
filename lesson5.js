@@ -582,38 +582,33 @@ function resetFillInTheBlanks() {
 }
 function renderReflection() {
     document.getElementById('mainContent').innerHTML = `
-        <span class="emoji">🎵</span>
-        <h2 style="color: #B20B13;">Wrap-up & Reflection</h2>
-        <p>Reflect on today's lesson:</p>
+        <span class="emoji"></span>
+        <h2>Wrap-up & Reflection</h2>
+        <p>Reflect with your partner:</p>
+        <div class="question-box mt-20" style="border-left: none;">
+            <ul style="padding-left: 20px; line-height: 2.2;">
+                <li>What song would you add to today's lesson playlist?</li>
+                <li>Which music vocabulary word describes your mood right now?</li>
+                <li>How does music help you in daily life?</li>
+                <li>Share a memory connected to a specific song.</li>
+                <li>What role does music play in your identity?</li>
+            </ul>
+        </div>
         
-       <div class="question-box mt-20" style="border-left: none; background: linear-gradient(135deg, #FDECDC 0%, #FFE5D0 100%);">
-    <ul style="padding-left: 20px; line-height: 2.2;">
-        <li>What song would you add to today's lesson playlist?</li>
-        <li>Which music vocabulary word describes your mood right now?</li>
-        <li>How does music help you in daily life?</li>
-        <li>Share a memory connected to a specific song.</li>
-        <li>What role does music play in your identity?</li>
-    </ul>
-</div>
-        
-               <button class="btn btn-primary mt-20" onclick="generateCheatSheet()" style="width: 100%; background: #B20B13; color: white; border: none; padding: 15px 30px; border-radius: 12px; font-family: 'Quicksand', sans-serif; font-weight: 600; font-size: 1rem; cursor: pointer;">
+        <button class="btn btn-primary mt-20" onclick="generateCheatSheet()" style="width: 100%; background: #B20B13; color: white; border: none; padding: 15px 30px; border-radius: 12px; font-family: 'Quicksand', sans-serif; font-weight: 600; font-size: 1rem; cursor: pointer;">
             📥 Download PDF Cheat Sheet
         </button>
         
         <button class="btn btn-secondary mt-20" onclick="generateHomeworkPDF()" style="width: 100%; background: white; color: #B20B13; border: 2px solid #B20B13; padding: 15px 30px; border-radius: 12px; font-family: 'Quicksand', sans-serif; font-weight: 600; font-size: 1rem; cursor: pointer; margin-top: 15px;">
-            📝 Download Homework PDF
-        </button>    
+             Download Homework PDF
+        </button>
+
         <div class="text-center mt-20">
             <h3 style="color: var(--primary); font-family: 'Comfortaa', cursive;">Keep the music playing! 🎶✨</h3>
             <p style="margin-top: 10px;">Let music be the soundtrack to your English journey!</p>
         </div>
-        
-        <div class="mt-20" style="text-align: center;">
-            <button class="btn btn-secondary" onclick="clearProgress()" style="font-size: 0.85rem;">Clear Progress</button>
-        </div>
     `;
 }
-
 // ================= TEXT TO SPEECH =================
 function speakText(text) {
     window.speechSynthesis.cancel();
