@@ -767,29 +767,28 @@ function renderReflection() {
         <h2>Wrap-up & Reflection</h2>
         <p>Reflect with your partner:</p>
         <div class="question-box mt-20" style="border-left: none;">
-    <ul style="padding-left: 20px; line-height: 2.2;">
-        <li>What's one wellness practice you want to try this week?</li>
-        <li>Which vocabulary word from today describes your current state?</li>
-        <li>How do you usually deal with stress?</li>
-        <li>What does "balance" mean to you personally?</li>
-        <li>Share one small change you'll make for your wellbeing.</li>
-    </ul>
-</div>
+            <ul style="padding-left: 20px; line-height: 2.2;">
+                <li>What's one wellness practice you want to try this week?</li>
+                <li>Which vocabulary word from today describes your current state?</li>
+                <li>How do you usually deal with stress?</li>
+                <li>What does "balance" mean to you personally?</li>
+                <li>Share one small change you'll make for your wellbeing.</li>
+            </ul>
+        </div>
         
-        <!-- ВОТ СЮДА ВСТАВЬ КНОПКУ: -->
-        <button class="btn btn-primary mt-20" onclick="generateCheatSheet()" style="width: 100%;">
-    📥 Download PDF Cheat Sheet
-</button>
+        <button class="btn btn-primary mt-20" onclick="generateCheatSheet()" style="width: 100%; background: #76845B; color: white; border: none; padding: 15px 30px; border-radius: 12px; font-family: 'Quicksand', sans-serif; font-weight: 600; font-size: 1rem; cursor: pointer;">
+            📥 Download PDF Cheat Sheet
+        </button>
+        
+        <button class="btn btn-secondary mt-20" onclick="generateHomeworkPDF()" style="width: 100%; background: white; color: #76845B; border: 2px solid #76845B; padding: 15px 30px; border-radius: 12px; font-family: 'Quicksand', sans-serif; font-weight: 600; font-size: 1rem; cursor: pointer; margin-top: 15px;">
+             Download Homework PDF
+        </button>
 
-<button class="btn btn-secondary mt-20" onclick="generateHomeworkPDF()" style="width: 100%; border: 2px solid var(--primary); color: var(--primary); background: white;">
-    📝 Download Homework PDF
-</button>
-        
         <div class="text-center mt-20">
             <h3 style="color: var(--primary); font-family: 'Comfortaa', cursive;">Namaste! 🧘✨</h3>
             <p style="margin-top: 10px;">Take care of your mind and body!</p>
         </div>
-    `;  // ← Закрывающая кавычка и точка с запятой ОБЯЗАТЕЛЬНЫ!
+    `;
 }
 
 // ================= TIMER LOGIC =================
