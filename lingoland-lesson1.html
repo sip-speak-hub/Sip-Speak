@@ -62,6 +62,9 @@
         
         .lesson-section {
             margin-bottom: 30px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 15px;
         }
         
         .lesson-section h2 {
@@ -80,6 +83,9 @@
             text-align: center;
             cursor: pointer;
             transition: transform 0.3s ease;
+            display: inline-block;
+            width: 45%;
+            margin-right: 2%;
         }
         
         .word-card:hover {
@@ -98,10 +104,11 @@
         }
         
         .exercise-box {
-            background: #f9f9f9;
+            background: white;
             border-radius: 15px;
             padding: 20px;
             margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
         
         .exercise-box h3 {
@@ -201,77 +208,226 @@
             font-weight: 600;
             margin-top: 10px;
         }
+        
+        .song-box {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .song-box h3 {
+            margin-top: 0;
+            font-size: 1.5rem;
+        }
+        
+        .song-lyrics {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin: 15px 0;
+        }
+        
+        .play-btn {
+            background: white;
+            color: #f5576c;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        .game-area {
+            background: #e8f5e9;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .game-card {
+            display: inline-block;
+            background: white;
+            padding: 15px;
+            margin: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        
+        .game-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .game-card.matched {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s;
+        }
     </style>
 </head>
 <body>
     <div class="lesson-container">
+        <!-- Progress Bar -->
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+        </div>
+        
         <!-- Приветствие от Чипа -->
         <div class="chip-greeting">
             <img src="chip.png" alt="Робот Чип">
             <div class="chip-speech">
                 <p style="font-size: 1.2rem; margin: 0;">Привет! Я Чип! 🤖</p>
-                <p style="margin: 10px 0 0 0;">Сегодня мы научимся здороваться по-английски!</p>
+                <p style="margin: 10px 0 0 0;">Сегодня мы научимся здороваться по-английски и познакомимся с семьёй Ларри и Лулу!</p>
             </div>
         </div>
         
-        <!-- Новые слова -->
-        <div class="lesson-section">
+        <!-- Раздел 1: Новые слова -->
+        <div class="lesson-section" id="section1">
             <h2>📚 Новые слова</h2>
             <p>Нажми на карточку, чтобы услышать произношение:</p>
             
-            <div class="word-card" onclick="speakWord('Hello')">
-                <div class="english">Hello! 👋</div>
-                <div class="russian">Привет!</div>
+            <div style="text-align: center;">
+                <div class="word-card" onclick="speakWord('Hello')">
+                    <div class="english">Hello! 👋</div>
+                    <div class="russian">Привет!</div>
+                </div>
+                
+                <div class="word-card" onclick="speakWord('Goodbye')">
+                    <div class="english">Goodbye! 👋</div>
+                    <div class="russian">До свидания!</div>
+                </div>
+                
+                <div class="word-card" onclick="speakWord('What\'s your name?')">
+                    <div class="english">What's your name?</div>
+                    <div class="russian">Как тебя зовут?</div>
+                </div>
+                
+                <div class="word-card" onclick="speakWord('My name is...')">
+                    <div class="english">My name is...</div>
+                    <div class="russian">Меня зовут...</div>
+                </div>
+                
+                <div class="word-card" onclick="speakWord('mummy')">
+                    <div class="english">Mummy 👩</div>
+                    <div class="russian">Мама</div>
+                </div>
+                
+                <div class="word-card" onclick="speakWord('daddy')">
+                    <div class="english">Daddy 👨</div>
+                    <div class="russian">Папа</div>
+                </div>
+                
+                <div class="word-card" onclick="speakWord('brother')">
+                    <div class="english">Brother 👦</div>
+                    <div class="russian">Брат</div>
+                </div>
+                
+                <div class="word-card" onclick="speakWord('sister')">
+                    <div class="english">Sister 👧</div>
+                    <div class="russian">Сестра</div>
+                </div>
             </div>
-            
-            <div class="word-card" onclick="speakWord('Goodbye')">
-                <div class="english">Goodbye! </div>
-                <div class="russian">До свидания!</div>
-            </div>
-            
-            <div class="word-card" onclick="speakWord('What\'s your name?')">
-                <div class="english">What's your name?</div>
-                <div class="russian">Как тебя зовут?</div>
-            </div>
-            
-            <div class="word-card" onclick="speakWord('My name is...')">
-                <div class="english">My name is...</div>
-                <div class="russian">Меня зовут...</div>
+        </div>
+        
+        <!-- Раздел 2: Песенка -->
+        <div class="lesson-section" id="section2">
+            <h2>🎵 Песенка "Hello, Hello!"</h2>
+            <div class="song-box">
+                <h3>Hello, Hello!</h3>
+                <div class="song-lyrics">
+                    Hello, hello, everyone!<br>
+                    I'm Nanny Shine, hello!<br>
+                    Come in and get ready,<br>
+                    Come on, everyone — let's go!<br><br>
+                    
+                    My name is Nanny Shine.<br>
+                    Tell me what's your name.<br>
+                    My name is Nanny Shine.<br>
+                    Nanny Shine's my name!
+                </div>
+                <button class="play-btn" onclick="playSong()">▶️ Слушать песню</button>
             </div>
         </div>
         
         <!-- Упражнение 1 -->
-        <div class="lesson-section">
+        <div class="lesson-section" id="section3">
             <div class="exercise-box">
                 <h3>✏️ Упражнение 1: Выбери правильный перевод</h3>
                 <p style="font-size: 1.2rem; margin-bottom: 15px;">Как будет "Привет" по-английски?</p>
                 
-                <button class="quiz-option" onclick="checkAnswer(this, false)">Goodbye</button>
-                <button class="quiz-option" onclick="checkAnswer(this, true)">Hello</button>
-                <button class="quiz-option" onclick="checkAnswer(this, false)">Name</button>
+                <button class="quiz-option" onclick="checkAnswer(this, false, 1)">Goodbye</button>
+                <button class="quiz-option" onclick="checkAnswer(this, true, 1)">Hello</button>
+                <button class="quiz-option" onclick="checkAnswer(this, false, 1)">Name</button>
             </div>
         </div>
         
         <!-- Упражнение 2 -->
-        <div class="lesson-section">
+        <div class="lesson-section" id="section4">
             <div class="exercise-box">
                 <h3>✏️ Упражнение 2: Что означает "Goodbye"?</h3>
                 
-                <button class="quiz-option" onclick="checkAnswer(this, false)">Привет</button>
-                <button class="quiz-option" onclick="checkAnswer(this, true)">До свидания</button>
-                <button class="quiz-option" onclick="checkAnswer(this, false)">Как дела?</button>
+                <button class="quiz-option" onclick="checkAnswer(this, false, 2)">Привет</button>
+                <button class="quiz-option" onclick="checkAnswer(this, true, 2)">До свидания</button>
+                <button class="quiz-option" onclick="checkAnswer(this, false, 2)">Как дела?</button>
             </div>
         </div>
         
-        <!-- Мини-тест -->
-        <div class="lesson-section">
+        <!-- Упражнение 3: Найди пару -->
+        <div class="lesson-section" id="section5">
             <div class="exercise-box">
-                <h3>🎯 Мини-тест</h3>
-                <p style="font-size: 1.2rem; margin-bottom: 15px;">Как спросить "Как тебя зовут?"</p>
+                <h3> Игра: Найди пару!</h3>
+                <p>Нажми на английское слово и его перевод:</p>
                 
-                <button class="quiz-option" onclick="checkAnswer(this, false)">Hello!</button>
-                <button class="quiz-option" onclick="checkAnswer(this, false)">Goodbye!</button>
-                <button class="quiz-option" onclick="checkAnswer(this, true)">What's your name?</button>
+                <div class="game-area" id="matchingGame">
+                    <div class="game-card" onclick="checkMatch(this, 'Hello')">Hello</div>
+                    <div class="game-card" onclick="checkMatch(this, 'Привет')">Привет</div>
+                    <div class="game-card" onclick="checkMatch(this, 'Goodbye')">Goodbye</div>
+                    <div class="game-card" onclick="checkMatch(this, 'До свидания')">До свидания</div>
+                    <div class="game-card" onclick="checkMatch(this, 'Mummy')">Mummy</div>
+                    <div class="game-card" onclick="checkMatch(this, 'Мама')">Мама</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Упражнение 4 -->
+        <div class="lesson-section" id="section6">
+            <div class="exercise-box">
+                <h3>✏️ Упражнение 4: Как спросить "Как тебя зовут?"</h3>
+                
+                <button class="quiz-option" onclick="checkAnswer(this, false, 4)">Hello!</button>
+                <button class="quiz-option" onclick="checkAnswer(this, false, 4)">Goodbye!</button>
+                <button class="quiz-option" onclick="checkAnswer(this, true, 4)">What's your name?</button>
+            </div>
+        </div>
+        
+        <!-- Упражнение 5: Семья -->
+        <div class="lesson-section" id="section7">
+            <div class="exercise-box">
+                <h3>✏️ Упражнение 5: Кто есть кто?</h3>
+                <p style="font-size: 1.2rem; margin-bottom: 15px;">Larry — это...</p>
+                
+                <button class="quiz-option" onclick="checkAnswer(this, true, 5)">Brother (брат)</button>
+                <button class="quiz-option" onclick="checkAnswer(this, false, 5)">Sister (сестра)</button>
+                <button class="quiz-option" onclick="checkAnswer(this, false, 5)">Daddy (папа)</button>
             </div>
         </div>
         
@@ -279,18 +435,30 @@
         <div class="lesson-section" id="rewardSection" style="display: none;">
             <div class="stars-reward">⭐⭐⭐</div>
             <h2 style="text-align: center;">Молодец! Урок пройден! 🎉</h2>
-            <p style="text-align: center; font-size: 1.2rem;">Ты выучил первые английские слова!</p>
+            <p style="text-align: center; font-size: 1.2rem;">Ты выучил первые английские слова и познакомился с семьёй!</p>
+            
+            <div style="text-align: center; margin-top: 30px;">
+                <h3>📝 Домашнее задание:</h3>
+                <p>1. Повтори слова: Hello, Goodbye, What's your name?</p>
+                <p>2. Расскажи родителям, как их зовут по-английски</p>
+                <p>3. Спой песенку "Hello, Hello!"</p>
+                <button class="nav-btn nav-btn-primary" onclick="downloadHomework()" style="margin-top: 20px;">
+                    📥 Скачать домашку (PDF)
+                </button>
+            </div>
         </div>
         
         <!-- Кнопка для родителей -->
-        <button class="toggle-parent-tips" onclick="toggleParentTips()">‍👩‍👧 Советы для родителей</button>
+        <button class="toggle-parent-tips" onclick="toggleParentTips()">👨‍👩‍👧 Советы для родителей</button>
         <div class="parent-tips" id="parentTips">
             <h4>Как помочь ребенку:</h4>
             <ul>
                 <li>Повторяйте слова вместе с ребенком вслух</li>
                 <li>Используйте слова в повседневной жизни ("Hello!" утром, "Goodbye!" когда уходите)</li>
                 <li>Хвалите за каждое правильное произношение</li>
-                <li>Не исправляйте ошибки резко - лучше повторите правильно</li>
+                <li>Спойте вместе песенку "Hello, Hello!"</li>
+                <li>Не исправляйте ошибки резко — лучше повторите правильно</li>
+                <li>Поиграйте в игру: представляйтесь друг другу по-английски</li>
             </ul>
         </div>
         
