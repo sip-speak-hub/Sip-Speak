@@ -1,12 +1,13 @@
 // LingoLand - Урок 1: Привет! (Расширенный)
 
 let correctAnswers = 0;
-let totalQuestions = 5;
+let totalQuestions = 6;
 let selectedCard = null;
 let matchedPairs = 0;
+let isPlaying = false;
 
 function updateProgress(section) {
-    const progress = (section / 7) * 100;
+    const progress = (section / 9) * 100;
     document.getElementById('progressBar').style.width = progress + '%';
 }
 
@@ -19,11 +20,26 @@ function speakWord(word) {
 }
 
 function playSong() {
-    const lyrics = "Hello, hello, everyone! I'm Nanny Shine, hello! Come in and get ready, Come on, everyone — let's go! My name is Nanny Shine. Tell me what's your name.";
-    const utterance = new SpeechSynthesisUtterance(lyrics);
-    utterance.lang = 'en-US';
-    utterance.rate = 0.9;
-    window.speechSynthesis.speak(utterance);
+    const audio = document.getElementById('songAudio');
+    const btn = document.getElementById('songBtn');
+    
+    if (isPlaying) {
+        audio.pause();
+        btn.textContent = '▶️ Слушать песню';
+        btn.classList.remove('playing');
+        isPlaying = false;
+    } else {
+        audio.play();
+        btn.textContent = '⏸️ Пауза';
+        btn.classList.add('playing');
+        isPlaying = true;
+        
+        audio.onended = function() {
+            btn.textContent = '▶️ Слушать песню';
+            btn.classList.remove('playing');
+            isPlaying = false;
+        };
+    }
 }
 
 function checkAnswer(button, isCorrect, exerciseNum) {
@@ -76,7 +92,7 @@ function checkMatch(card, word) {
             
             if (matchedPairs === 3) {
                 setTimeout(() => {
-                    alert('Отлично! Все пары найдены! ');
+                    alert('Отлично! Все пары найдены! 🎉');
                     correctAnswers++;
                     updateProgress(5);
                 }, 500);

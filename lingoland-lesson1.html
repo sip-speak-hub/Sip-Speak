@@ -238,6 +238,16 @@
             font-weight: bold;
             cursor: pointer;
             font-size: 1rem;
+            margin: 5px;
+        }
+        
+        .play-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .play-btn.playing {
+            background: #4CAF50;
+            color: white;
         }
         
         .game-area {
@@ -281,6 +291,19 @@
             height: 100%;
             background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
             transition: width 0.3s;
+        }
+        
+        .character-info {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 4px solid #2196F3;
+        }
+        
+        .character-info h4 {
+            margin-top: 0;
+            color: #1976D2;
         }
     </style>
 </head>
@@ -348,8 +371,33 @@
             </div>
         </div>
         
-        <!-- Раздел 2: Песенка -->
+        <!-- Раздел 2: Персонажи учебника -->
         <div class="lesson-section" id="section2">
+            <h2> Герои учебника</h2>
+            
+            <div class="character-info">
+                <h4>👦 Larry (Ларри)</h4>
+                <p><strong>Larry is a boy.</strong> (Ларри — мальчик)<br>
+                He is Lulu's brother. (Он брат Лулу)<br>
+                He has got a toy soldier and a teddy bear.</p>
+            </div>
+            
+            <div class="character-info">
+                <h4>👧 Lulu (Лулу)</h4>
+                <p><strong>Lulu is a girl.</strong> (Лулу — девочка)<br>
+                She is Larry's sister. (Она сестра Ларри)<br>
+                She has got a ballerina.</p>
+            </div>
+            
+            <div class="character-info">
+                <h4>👵 Nanny Shine (Нэнни Шайн)</h4>
+                <p><strong>Nanny Shine</strong> is their nanny. (Нэнни Шайн — их няня)<br>
+                She takes care of Larry and Lulu.</p>
+            </div>
+        </div>
+        
+        <!-- Раздел 3: Песенка -->
+        <div class="lesson-section" id="section3">
             <h2>🎵 Песенка "Hello, Hello!"</h2>
             <div class="song-box">
                 <h3>Hello, Hello!</h3>
@@ -364,12 +412,13 @@
                     My name is Nanny Shine.<br>
                     Nanny Shine's my name!
                 </div>
-                <button class="play-btn" onclick="playSong()">▶️ Слушать песню</button>
+                <button class="play-btn" onclick="playSong()" id="songBtn">▶️ Слушать песню</button>
+                <audio id="songAudio" src="audio/hello-song.mp3"></audio>
             </div>
         </div>
         
         <!-- Упражнение 1 -->
-        <div class="lesson-section" id="section3">
+        <div class="lesson-section" id="section4">
             <div class="exercise-box">
                 <h3>✏️ Упражнение 1: Выбери правильный перевод</h3>
                 <p style="font-size: 1.2rem; margin-bottom: 15px;">Как будет "Привет" по-английски?</p>
@@ -381,7 +430,7 @@
         </div>
         
         <!-- Упражнение 2 -->
-        <div class="lesson-section" id="section4">
+        <div class="lesson-section" id="section5">
             <div class="exercise-box">
                 <h3>✏️ Упражнение 2: Что означает "Goodbye"?</h3>
                 
@@ -392,9 +441,9 @@
         </div>
         
         <!-- Упражнение 3: Найди пару -->
-        <div class="lesson-section" id="section5">
+        <div class="lesson-section" id="section6">
             <div class="exercise-box">
-                <h3> Игра: Найди пару!</h3>
+                <h3>🎮 Игра: Найди пару!</h3>
                 <p>Нажми на английское слово и его перевод:</p>
                 
                 <div class="game-area" id="matchingGame">
@@ -409,7 +458,7 @@
         </div>
         
         <!-- Упражнение 4 -->
-        <div class="lesson-section" id="section6">
+        <div class="lesson-section" id="section7">
             <div class="exercise-box">
                 <h3>✏️ Упражнение 4: Как спросить "Как тебя зовут?"</h3>
                 
@@ -419,15 +468,27 @@
             </div>
         </div>
         
-        <!-- Упражнение 5: Семья -->
-        <div class="lesson-section" id="section7">
+        <!-- Упражнение 5: Larry -->
+        <div class="lesson-section" id="section8">
             <div class="exercise-box">
-                <h3>✏️ Упражнение 5: Кто есть кто?</h3>
-                <p style="font-size: 1.2rem; margin-bottom: 15px;">Larry — это...</p>
+                <h3>️ Упражнение 5: Кто такой Ларри?</h3>
+                <p style="font-size: 1.2rem; margin-bottom: 15px;">Larry is...</p>
                 
-                <button class="quiz-option" onclick="checkAnswer(this, true, 5)">Brother (брат)</button>
-                <button class="quiz-option" onclick="checkAnswer(this, false, 5)">Sister (сестра)</button>
-                <button class="quiz-option" onclick="checkAnswer(this, false, 5)">Daddy (папа)</button>
+                <button class="quiz-option" onclick="checkAnswer(this, true, 5)">a boy (мальчик)</button>
+                <button class="quiz-option" onclick="checkAnswer(this, false, 5)">a girl (девочка)</button>
+                <button class="quiz-option" onclick="checkAnswer(this, false, 5)">a chimp (шимпанзе)</button>
+            </div>
+        </div>
+        
+        <!-- Упражнение 6: Семья -->
+        <div class="lesson-section" id="section9">
+            <div class="exercise-box">
+                <h3>✏️ Упражнение 6: Семья Ларри</h3>
+                <p style="font-size: 1.2rem; margin-bottom: 15px;">Lulu is Larry's...</p>
+                
+                <button class="quiz-option" onclick="checkAnswer(this, false, 6)">mummy (мама)</button>
+                <button class="quiz-option" onclick="checkAnswer(this, true, 6)">sister (сестра)</button>
+                <button class="quiz-option" onclick="checkAnswer(this, false, 6)">grandma (бабушка)</button>
             </div>
         </div>
         
@@ -449,7 +510,7 @@
         </div>
         
         <!-- Кнопка для родителей -->
-        <button class="toggle-parent-tips" onclick="toggleParentTips()">👨‍👩‍👧 Советы для родителей</button>
+        <button class="toggle-parent-tips" onclick="toggleParentTips()">👨👩‍👧 Советы для родителей</button>
         <div class="parent-tips" id="parentTips">
             <h4>Как помочь ребенку:</h4>
             <ul>
