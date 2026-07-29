@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Урок 1: Привет! - LingoLand</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Comfortaa:wght@400;500;600;700&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .lesson-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .chip-greeting {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .chip-greeting img {
+            width: 120px;
+            height: auto;
+            animation: bounce 2s ease-in-out infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        
+        .chip-speech {
+            background: #f0f0f0;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 15px;
+            position: relative;
+        }
+        
+        .chip-speech::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 10px solid #f0f0f0;
+        }
+        
+        .lesson-section {
+            margin-bottom: 30px;
+        }
+        
+        .lesson-section h2 {
+            color: #764ba2;
+            font-family: 'Comfortaa', cursive;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+        
+        .word-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .word-card:hover {
+            transform: scale(1.05);
+        }
+        
+        .word-card .english {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .word-card .russian {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .exercise-box {
+            background: #f9f9f9;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .exercise-box h3 {
+            color: #764ba2;
+            margin-top: 0;
+        }
+        
+        .quiz-option {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            background: white;
+            border: 2px solid #764ba2;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .quiz-option:hover {
+            background: #764ba2;
+            color: white;
+        }
+        
+        .quiz-option.correct {
+            background: #4CAF50;
+            color: white;
+            border-color: #4CAF50;
+        }
+        
+        .quiz-option.wrong {
+            background: #F44336;
+            color: white;
+            border-color: #F44336;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        .nav-btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 15px;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-btn-primary {
+            background: #764ba2;
+            color: white;
+        }
+        
+        .nav-btn-secondary {
+            background: #f0f0f0;
+            color: #764ba2;
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .stars-reward {
+            text-align: center;
+            font-size: 3rem;
+            margin: 20px 0;
+        }
+        
+        .parent-tips {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .parent-tips.show {
+            display: block;
+        }
+        
+        .toggle-parent-tips {
+            background: #ffc107;
+            color: #333;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="lesson-container">
+        <!-- Приветствие от Чипа -->
+        <div class="chip-greeting">
+            <img src="chip.png" alt="Робот Чип">
+            <div class="chip-speech">
+                <p style="font-size: 1.2rem; margin: 0;">Привет! Я Чип! 🤖</p>
+                <p style="margin: 10px 0 0 0;">Сегодня мы научимся здороваться по-английски!</p>
+            </div>
+        </div>
+        
+        <!-- Новые слова -->
+        <div class="lesson-section">
+            <h2>📚 Новые слова</h2>
+            <p>Нажми на карточку, чтобы услышать произношение:</p>
+            
+            <div class="word-card" onclick="speakWord('Hello')">
+                <div class="english">Hello! 👋</div>
+                <div class="russian">Привет!</div>
+            </div>
+            
+            <div class="word-card" onclick="speakWord('Goodbye')">
+                <div class="english">Goodbye! </div>
+                <div class="russian">До свидания!</div>
+            </div>
+            
+            <div class="word-card" onclick="speakWord('What\'s your name?')">
+                <div class="english">What's your name?</div>
+                <div class="russian">Как тебя зовут?</div>
+            </div>
+            
+            <div class="word-card" onclick="speakWord('My name is...')">
+                <div class="english">My name is...</div>
+                <div class="russian">Меня зовут...</div>
+            </div>
+        </div>
+        
+        <!-- Упражнение 1 -->
+        <div class="lesson-section">
+            <div class="exercise-box">
+                <h3>✏️ Упражнение 1: Выбери правильный перевод</h3>
+                <p style="font-size: 1.2rem; margin-bottom: 15px;">Как будет "Привет" по-английски?</p>
+                
+                <button class="quiz-option" onclick="checkAnswer(this, false)">Goodbye</button>
+                <button class="quiz-option" onclick="checkAnswer(this, true)">Hello</button>
+                <button class="quiz-option" onclick="checkAnswer(this, false)">Name</button>
+            </div>
+        </div>
+        
+        <!-- Упражнение 2 -->
+        <div class="lesson-section">
+            <div class="exercise-box">
+                <h3>✏️ Упражнение 2: Что означает "Goodbye"?</h3>
+                
+                <button class="quiz-option" onclick="checkAnswer(this, false)">Привет</button>
+                <button class="quiz-option" onclick="checkAnswer(this, true)">До свидания</button>
+                <button class="quiz-option" onclick="checkAnswer(this, false)">Как дела?</button>
+            </div>
+        </div>
+        
+        <!-- Мини-тест -->
+        <div class="lesson-section">
+            <div class="exercise-box">
+                <h3>🎯 Мини-тест</h3>
+                <p style="font-size: 1.2rem; margin-bottom: 15px;">Как спросить "Как тебя зовут?"</p>
+                
+                <button class="quiz-option" onclick="checkAnswer(this, false)">Hello!</button>
+                <button class="quiz-option" onclick="checkAnswer(this, false)">Goodbye!</button>
+                <button class="quiz-option" onclick="checkAnswer(this, true)">What's your name?</button>
+            </div>
+        </div>
+        
+        <!-- Награда -->
+        <div class="lesson-section" id="rewardSection" style="display: none;">
+            <div class="stars-reward">⭐⭐⭐</div>
+            <h2 style="text-align: center;">Молодец! Урок пройден! 🎉</h2>
+            <p style="text-align: center; font-size: 1.2rem;">Ты выучил первые английские слова!</p>
+        </div>
+        
+        <!-- Кнопка для родителей -->
+        <button class="toggle-parent-tips" onclick="toggleParentTips()">‍👩‍👧 Советы для родителей</button>
+        <div class="parent-tips" id="parentTips">
+            <h4>Как помочь ребенку:</h4>
+            <ul>
+                <li>Повторяйте слова вместе с ребенком вслух</li>
+                <li>Используйте слова в повседневной жизни ("Hello!" утром, "Goodbye!" когда уходите)</li>
+                <li>Хвалите за каждое правильное произношение</li>
+                <li>Не исправляйте ошибки резко - лучше повторите правильно</li>
+            </ul>
+        </div>
+        
+        <!-- Навигация -->
+        <div class="nav-buttons">
+            <button class="nav-btn nav-btn-secondary" onclick="goBack()">← Назад</button>
+            <button class="nav-btn nav-btn-primary" onclick="completeLesson()">Завершить урок ✓</button>
+        </div>
+    </div>
+    
+    <script src="lingoland-lesson1.js"></script>
+</body>
+</html>

@@ -99,10 +99,20 @@
         <span class="time">📖 <span id="dictCount">0</span> words</span>
     </div>
 </div>
-        <footer class="home-footer">
+                        <footer class="home-footer">
             <p>Made with 💚 for English learners</p>
         </footer>
-    </div>
+
+        <!-- LingoLand Section - ВНУТРИ app-container, В САМОМ НИЗУ -->
+        <div style="width: 100%; margin-top: 60px; padding: 40px 30px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 20px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.2); box-sizing: border-box; position: relative; clear: both;">
+            <h2 style="color: white; font-family: 'Comfortaa', cursive; margin-bottom: 15px; font-size: 2rem;">🤖 LingoLand - Английский для детей!</h2>
+            <p style="color: white; margin-bottom: 25px; font-size: 1.1rem;">Специальный курс английского для детей 7-8 лет</p>
+            <a href="lingoland.html" style="display: inline-block; padding: 18px 50px; background: white; color: #764ba2; text-decoration: none; border-radius: 30px; font-weight: bold; font-family: 'Quicksand', sans-serif; font-size: 1.2rem; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+                Войти в LingoLand 🚀
+            </a>
+        </div>
+    </div>  <!-- ← закрывающий div app-container ТЕПЕРЬ ПОСЛЕ LingoLand -->
+
 <script>
     // Update dictionary count on homepage
     const dict = JSON.parse(localStorage.getItem('sipSpeakDictionary') || '[]');
